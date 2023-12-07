@@ -33,7 +33,7 @@ public class Bullet extends GameObject {
     @Override
     public void draw(Graphics g) {
         try {
-            BufferedImage image = ImageIO.read(new File("resources/bullet.png"));
+            BufferedImage image = ImageIO.read(new File("src/main/resources/bullet.png"));
             g.drawImage(image, (int) this.getX(), (int) this.getY(), null);
         } catch (IOException e) {
             e.printStackTrace();

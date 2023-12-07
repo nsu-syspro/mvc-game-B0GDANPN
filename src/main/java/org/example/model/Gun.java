@@ -35,7 +35,7 @@ public class Gun extends GameObject {
     @Override
     public void draw(Graphics g) {
         try {
-            BufferedImage image = ImageIO.read(new File("resources/gunbase.png"));
+            BufferedImage image = ImageIO.read(new File("src/main/resources/gunbase.png"));
             g.drawImage(image, (int) this.getX(), (int) this.getY(), null);
         } catch (IOException e) {
             e.printStackTrace();

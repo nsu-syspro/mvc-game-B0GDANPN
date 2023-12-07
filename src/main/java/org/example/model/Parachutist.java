@@ -31,7 +31,7 @@ public class Parachutist extends GameObject {
     @Override
     public void draw(Graphics g) {
         try {
-            BufferedImage image = ImageIO.read(new File("resources/paratrooper.png"));
+            BufferedImage image = ImageIO.read(new File("src/main/resources/paratrooper.png"));
             g.drawImage(image, (int) this.getX(), (int) this.getY(), null);
         } catch (IOException e) {
             e.printStackTrace();

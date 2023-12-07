@@ -24,7 +24,7 @@ public class GamePanel extends JPanel {
         this.gameObjects = gameObjects;
         this.controllerListener = controllerListener;
         try {
-            backgroundImage = ImageIO.read(new File("resources/gamebackground.png"));
+            backgroundImage = ImageIO.read(new File("src/main/resources/gamebackground.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

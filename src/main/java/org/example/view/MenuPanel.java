@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MenuPanel extends JPanel {
 
@@ -24,7 +23,7 @@ public class MenuPanel extends JPanel {
         this.tableListener = tableListener;
         this.setSize(width, height);
         try {
-            backgroundImage = ImageIO.read(new File("resources/startGame.png"));
+            backgroundImage = ImageIO.read(new File("src/main/resources/startGame.png"));
         }
         catch (IOException e){
             e.printStackTrace();

@@ -30,7 +30,7 @@ public class Soldier extends GameObject {
     @Override
     public void draw(Graphics g) {
         try {
-            BufferedImage image = ImageIO.read(new File("resources/soldier.png"));
+            BufferedImage image = ImageIO.read(new File("src/main/resources/soldier.png"));
             g.drawImage(image, (int) this.getX(), (int) this.getY(), null);
         } catch (IOException e) {
             e.printStackTrace();

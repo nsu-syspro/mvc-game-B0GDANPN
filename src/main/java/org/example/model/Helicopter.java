@@ -40,10 +40,10 @@ public class Helicopter extends GameObject {
         try {
             BufferedImage image;
             if (VECTOR == 1) {
-                image = ImageIO.read(new File("resources/minihelicopter2.png"));
+                image = ImageIO.read(new File("src/main/resources/minihelicopter2.png"));
                 g.drawImage(image, (int) this.getX(), (int) this.getY(), null);
             } else {
-                image = ImageIO.read(new File("resources/minihelicopter1.png"));
+                image = ImageIO.read(new File("src/main/resources/minihelicopter1.png"));
                 g.drawImage(image, (int) this.getX(), (int) this.getY(), null);
             }
         } catch (IOException e) {
