@@ -1,9 +1,9 @@
 package org.example;
-import org.example.controller.ParatrooperController;
+import org.example.controller.Controller;
 
 public class Main {
     public static void main(String[] args) {
-        ParatrooperController controller = new ParatrooperController();
+        Controller controller = new Controller();
         controller.run();
     }
 }

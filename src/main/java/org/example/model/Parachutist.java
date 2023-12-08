@@ -1,44 +1,54 @@
 package org.example.model;
 
-import org.example.dto.GameObject;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-public class Parachutist extends GameObject {
-    private static final int WIDTH = 72;
-    private static final int HEIGHT = 90;
-    private static final int SPEED = 2;
-
-    public Parachutist(double x, double y) {
-        this.setX(x - WIDTH / 2);
-        this.setY(HEIGHT / 2);
+/*
+public void drawParachutist(Graphics g, Parachutist parachutist) {
+    //private static final int WIDTH = 72;
+    //private static final int HEIGHT = 90;
+    try {
+        BufferedImage image = ImageIO.read(new File("src/main/resources/paratrooper.png"));
+        g.drawImage(image, (int) this.getX(), (int) this.getY(), null);
+    } catch (IOException e) {
+        e.printStackTrace();
     }
-
-    @Override
-    public int getWidth() {
-        return WIDTH;
-    }
-
-    @Override
-    public int getHeight() {
-        return HEIGHT;
-    }
-
-    @Override
-    public void draw(Graphics g) {
+}
+public void drawSoldier(Graphics g) {
+    //private static final int WIDTH = 72;
+    //private static final int HEIGHT = 72;
         try {
-            BufferedImage image = ImageIO.read(new File("src/main/resources/paratrooper.png"));
+            BufferedImage image = ImageIO.read(new File("src/main/resources/soldier.png"));
             g.drawImage(image, (int) this.getX(), (int) this.getY(), null);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+*/
 
-    public void move() {
-        this.setY(this.getY() + SPEED);
+public final class Parachutist extends GameObject {
+    private boolean onGround = false;
+    private static final int SPEED = 2;
+
+    public void setOnGround() {
+        this.onGround = onGround;
+
     }
+    public boolean getOnGround() {
+        return onGround;
+    }
+
+
+    public Parachutist(int x, int parachutistWidth, int parachutistHeight) {
+        this.setX(x - parachutistWidth / 2);
+        this.setY(parachutistHeight / 2);
+    }
+
+    public void move(int gameHeight, int soldatHeight) {
+        if (!onGround) {
+            this.setY(this.getY() + SPEED);
+        }
+        if (this.getY() >= gameHeight - 100) {
+            this.setOnGround();
+            this.setY((int) (gameHeight - 1.5 * soldatHeight));
+        }
+    }
+
 }

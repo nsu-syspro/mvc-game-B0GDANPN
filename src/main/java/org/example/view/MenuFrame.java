@@ -4,23 +4,13 @@ package org.example.view;
 import javax.swing.*;
 
 public class MenuFrame extends JFrame {
-    private static final int WIDTH = 900;
-    private static final int HEIGHT = 540;
 
-    public MenuFrame() {
+    public MenuFrame(int MenuWidth, int MenuHeight) {
         setTitle("Paratrooper Game");
-        setSize(WIDTH, HEIGHT);
+        setSize(MenuWidth, MenuHeight);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
-    }
-
-    public int getWidth() {
-        return WIDTH;
-    }
-
-    public int getHeight() {
-        return HEIGHT;
     }
 
 }

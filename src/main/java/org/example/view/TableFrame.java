@@ -5,8 +5,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 
 public class TableFrame extends JFrame {
-    private static final int WIDTH = 600;
-    private static final int HEIGHT = 600;
 
     public TableFrame(StringBuilder content) {
         setTitle("Table of results");

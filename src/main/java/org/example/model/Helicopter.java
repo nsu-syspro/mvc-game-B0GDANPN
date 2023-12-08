@@ -1,58 +1,44 @@
 package org.example.model;
 
-import org.example.dto.GameObject;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-public class Helicopter extends GameObject {
-    private static final int WIDTH = 200;
-    private static final int HEIGHT = 95;
+import java.util.Random;
+public final class Helicopter extends GameObject {
     private static final int SPEED = 3;
-    private int VECTOR;
+    private int x;
+    private final int DIRECTION;
 
-    public Helicopter(int widthScreen, boolean vector) {
-        this.setY(0);
+    public Helicopter(int widthGame, boolean vector) {
         if (vector) {
-            this.setX(widthScreen);
+            this.setX(widthGame);
         } else {
             this.setX(0);
         }
-        this.VECTOR = vector ? -1 : 1;
+        this.DIRECTION = vector ? -1 : 1;
 
     }
 
-    @Override
-    public int getWidth() {
-        return WIDTH;
+    public int getX() {
+        return x;
     }
 
-    @Override
-    public int getHeight() {
-        return HEIGHT;
+    public int getDirection() {
+        return DIRECTION;
     }
 
-    @Override
-    public void draw(Graphics g) {
-        try {
-            BufferedImage image;
-            if (VECTOR == 1) {
-                image = ImageIO.read(new File("src/main/resources/minihelicopter2.png"));
-                g.drawImage(image, (int) this.getX(), (int) this.getY(), null);
-            } else {
-                image = ImageIO.read(new File("src/main/resources/minihelicopter1.png"));
-                g.drawImage(image, (int) this.getX(), (int) this.getY(), null);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    Parachutist createParatrooper(int helicopterWidth,int gameWidth,int gameHeight) {
+        Random random = new Random();
+        if (random.nextInt(100) < 15) {
+            Parachutist parachutist = new Parachutist(this.getX() + helicopterWidth / 2, gameWidth, gameHeight);
+            return parachutist;
+
         }
-        // Draw the helicopter image here
+        return null;
     }
 
     public void move() {
-        this.setX(this.getX() + SPEED * VECTOR);
+        this.setX(this.getX() + SPEED * DIRECTION);
     }
 }
