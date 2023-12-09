@@ -25,8 +25,7 @@ public final class Gun extends GameObject {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShootTime > SHOOT_DELAY) {
             lastShootTime = currentTime;
-            Bullet bullet = new Bullet(this.getX() + widthGun / 2, this.getY() + heightGun / 2, angle, widthBullet, heightBullet);
-            return bullet;
+            return new Bullet(this.getX() + widthGun / 2, this.getY() + heightGun / 2, angle, widthBullet, heightBullet);
         }
         return null;
     }

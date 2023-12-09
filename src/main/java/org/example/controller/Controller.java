@@ -5,13 +5,16 @@ import org.example.view.*;
 import org.example.dto.*;
 
 import javax.swing.*;
-public  class Controller implements Runnable, NewGameListener, ControllerListener,TableListener,ExitMenuListener {
+
+public class Controller implements Runnable, NewGameListener, ControllerListener, TableListener, ExitMenuListener {
     Game game;
     View view;
+
     public void run() {
-        view = new View(this,this,this,this);
-        view.runMenu(this,this,this);
+        view = new View(this);
+        view.runMenu(this, this, this);
     }
+
     @Override
     public void newGame() {
         view.runGame();
@@ -19,30 +22,32 @@ public  class Controller implements Runnable, NewGameListener, ControllerListene
 
         Timer helicopterTimer = new Timer(1300, e -> game.createHelicopter(View.getGameWidth()));
         helicopterTimer.start();
-        Timer parachutistTimer = new Timer(1100, e -> game.createParachutist(View.getParachutistWidth(), View.getParachutistHeight()));
+        Timer parachutistTimer = new Timer(1500, e -> game.createParachutist(View.getParachutistWidth(), View.getParachutistHeight()));
         parachutistTimer.start();
-        Timer gameTimer = new Timer(20, e -> {
+        Timer gameTimer = new Timer(100, e -> {
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
             game.updateGame(View.getGameHeight(), View.getSoldierHeight());
         });
         gameTimer.start();
     }
-    public void endGame(){
-        int score=game.getScore();
-        view.endGame(score);
+
+    public void endGame() {
+        view.endGame();
     }
+
     @Override
-    public void createBullet(){
+    public void createBullet() {
         game.createBullet(View.getGunWidth(), View.getGunHeight(), View.getBulletWidth(), View.getBulletHeight());
     }
+
     @Override
-    public void updateGun(int mouseX, int mouseY){
+    public void updateGun(int mouseX, int mouseY) {
         game.updateGun(mouseX, mouseY, View.getGunWidth(), View.getGunHeight());
     }
 
     @Override
-    public IndicesReduced getIndicesReducedObjects(){
+    public IndicesReduced getIndicesReducedObjects() {
         return view.getIndicesReducedObjects();
     }
 
@@ -53,6 +58,10 @@ public  class Controller implements Runnable, NewGameListener, ControllerListene
 
     @Override
     public void showTable() {
-        view.showTable();
+        if (game == null) {
+            view.showTable(0);
+        } else {
+            view.showTable(game.getScore());
+        }
     }
 }

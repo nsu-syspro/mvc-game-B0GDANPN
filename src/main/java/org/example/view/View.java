@@ -9,10 +9,9 @@ import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
-public class View implements TableListener, ExitMenuListener {
+public class View {
     private static final int menuWidth = 900;
     private static final int menuHeight = 540;
     private static final int tableWidth = 600;
@@ -99,15 +98,9 @@ public class View implements TableListener, ExitMenuListener {
     private GamePanel gamePanel;
     private GameFrame gameFrame;
     private final ControllerListener controllerListener;
-    private final NewGameListener newGameListener;
-    private final TableListener tableListener;
-    private final ExitMenuListener exitMenuListener;
 
-    public View(ControllerListener controllerListener, NewGameListener newGameListener, TableListener tableListener, ExitMenuListener exitMenuListener) {
+    public View(ControllerListener controllerListener) {
         this.controllerListener = controllerListener;
-        this.newGameListener = newGameListener;
-        this.tableListener = tableListener;
-        this.exitMenuListener = exitMenuListener;
     }
 
     public void runMenu(NewGameListener newGameListener, TableListener tableListener, ExitMenuListener exitMenuListener) {
@@ -136,20 +129,33 @@ public class View implements TableListener, ExitMenuListener {
         gameFrame.setContentPane(gamePanel);
     }
 
-    @Override
-    public void showTable() {
+
+    public void showTable(int currentScore) {
         try {
-            File file = new File("file.txt");
+            File file = new File("fileRES.txt");
             StringBuilder sb = new StringBuilder();
+            sb.append("Best record is ");
+            int number;
             if (file.exists()) {
                 Scanner scanner = new Scanner(file);
-                while (scanner.hasNextLine()) {
-                    int number = Integer.parseInt(scanner.nextLine());
-                    sb.append(number).append("\n");
+                if (scanner.hasNextLine()) {
+                    number = Integer.parseInt(scanner.nextLine());
+                } else {
+                    number = 0;
                 }
                 scanner.close();
             } else {
                 FileWriter writer = new FileWriter(file);
+                number = 0;
+                writer.write("0");
+                writer.close();
+            }
+            sb.append(number).append("\n");
+            sb.append("Current result is ");
+            sb.append(currentScore).append("\n");
+            if (currentScore > number) {
+                FileWriter writer = new FileWriter(file);
+                writer.write(String.valueOf(currentScore));
                 writer.close();
             }
             TableFrame tableRecords = new TableFrame(sb);
@@ -159,18 +165,10 @@ public class View implements TableListener, ExitMenuListener {
 
     }
 
-    public void endGame(int score) {
-        try {
-            FileWriter writer = new FileWriter("file.txt", true);
-            writer.write(score + System.lineSeparator());
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void endGame() {
         gameFrame.dispose();
     }
 
-    @Override
     public void exitMenu() {
         System.exit(0);
     }
