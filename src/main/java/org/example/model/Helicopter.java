@@ -8,7 +8,7 @@ public final class Helicopter extends GameObject {
 
     public Helicopter(int widthGame, boolean vector) {
         if (vector) {
-            this.setX(widthGame);
+            this.setX(widthGame-1);
         } else {
             this.setX(0);
         }

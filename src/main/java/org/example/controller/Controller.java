@@ -17,17 +17,17 @@ public  class Controller implements Runnable, NewGameListener, ControllerListene
         view.runGame();
         game = new Game(this, View.getGameWidth(), View.getGameHeight(), View.getGunWidth(), View.getGunHeight());
 
-        Timer helicopterTimer = new Timer(1000, e -> game.createHelicopter(View.getGameWidth()));
+        Timer helicopterTimer = new Timer(1300, e -> game.createHelicopter(View.getGameWidth()));
         helicopterTimer.start();
         Timer parachutistTimer = new Timer(1100, e -> game.createParachutist(View.getParachutistWidth(), View.getParachutistHeight()));
         parachutistTimer.start();
-        Timer gameTimer = new Timer(100, e -> {
-            game.updateGame(View.getGameHeight(), View.getSoldierHeight());
+        Timer gameTimer = new Timer(20, e -> {
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
-            if (game.getnParachutistsReachedGround()>=5){
+            if (game.getCountParachutistOnGround()>=5){
                 endGame();
             }
+            game.updateGame(View.getGameHeight(), View.getSoldierHeight());
         });
         gameTimer.start();
     }

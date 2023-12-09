@@ -15,7 +15,7 @@ public sealed class GameObject permits Bullet,Parachutist,Helicopter,Gun{
     public int getY() {
         return y;
     }
-    public void setY(int x) {
+    public void setY(int y) {
         this.y = y;
     }
 }

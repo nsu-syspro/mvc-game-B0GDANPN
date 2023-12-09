@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class Game {
     private int score;
-    private int nParachutistsReachedGround;
+    private int countParachutistOnGround;
 
     private final List<Bullet> bullets;
     private final List<Parachutist> parachutists;
@@ -19,7 +19,7 @@ public class Game {
 
     public Game(ControllerListener controllerListener, int widthGame, int heightGame, int gunWidth, int gunHeight) {
         score = 0;
-        nParachutistsReachedGround = 0;
+        countParachutistOnGround = 0;
         this.controllerListener = controllerListener;
         gun = new Gun(widthGame / 2, heightGame, gunWidth, gunHeight);
         bullets = new ArrayList<>();
@@ -35,13 +35,16 @@ public class Game {
         List<Integer> indicesHelicoptersToRemove = getIndicesReducedObjects.indicesHelicopters();
         List<Integer> indicesParachutistsToRemove = getIndicesReducedObjects.indicesParachutists();
         for (int i = indicesBulletsToRemove.size() - 1; i >= 0; i--) {
-            bullets.remove(indicesBulletsToRemove.get(i));
+            int deb=indicesBulletsToRemove.get(i);
+            bullets.remove(deb);
         }
         for (int i = indicesHelicoptersToRemove.size() - 1; i >= 0; i--) {
-            helicopters.remove(indicesHelicoptersToRemove.get(i));
+            int deb=indicesHelicoptersToRemove.get(i);
+            helicopters.remove(deb);
         }
         for (int i = indicesParachutistsToRemove.size() - 1; i >= 0; i--) {
-            parachutists.remove(indicesParachutistsToRemove.get(i));
+            int deb=indicesParachutistsToRemove.get(i);
+            parachutists.remove(deb);
         }
     }
 
@@ -52,7 +55,7 @@ public class Game {
         for (Parachutist parachutist : parachutists) {
             parachutist.move(heightGame, heightSoldier);
             if (parachutist.getOnGround() == 1) {
-                nParachutistsReachedGround++;
+                countParachutistOnGround++;
             }
         }
         for (Helicopter helicopter : helicopters) {
@@ -64,7 +67,7 @@ public class Game {
         int size = helicopters.size();
         Random random = new Random();
         for (int i = 1; i < size; i++) {
-            if (random.nextInt(100) < 20) {
+            if (random.nextInt(100) < 15) {
                 Parachutist parachutist = new Parachutist(helicopters.get(i).getX(), widthParachutist, heightParachutist);
                 parachutists.add(parachutist);
             }
@@ -75,14 +78,16 @@ public class Game {
         Random random = new Random();
         boolean vector = random.nextBoolean();
         Helicopter helicopter = new Helicopter(widthScreen, vector);
-        if (helicopter != null) {
-            helicopters.add(helicopter);
-        }
+        helicopters.add(helicopter);
     }
 
     public void createBullet(int widthGun, int heightGun, int widthBullet, int heightBullet) {
-        bullets.add(gun.generateBullet(widthGun, heightGun, widthBullet, heightBullet));
+        Bullet bullet = gun.generateBullet(widthGun, heightGun, widthBullet, heightBullet);
+        if (bullet != null) {
+            bullets.add(bullet);
+        }
     }
+
 
     public void updateGun(int mouseX, int mouseY, int widthGun, int heightGun) {
         gun.setAngle(mouseX, mouseY, widthGun, heightGun);
@@ -91,12 +96,15 @@ public class Game {
     public void increaseScore(int difference) {
         score += difference;
     }
+
     public int getScore() {
         return score;
     }
-    public int getnParachutistsReachedGround() {
-        return nParachutistsReachedGround;
+
+    public int getCountParachutistOnGround() {
+        return countParachutistOnGround;
     }
+
     public GameInfo toGameInfo() {
         List<Dto> dtos = new ArrayList<>();
         for (Bullet b : bullets) {

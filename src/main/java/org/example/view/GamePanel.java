@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JPanel;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GamePanel extends JPanel {
@@ -24,11 +25,14 @@ public class GamePanel extends JPanel {
     private static final int helicopterWidth = 200;
     private static final int helicopterHeight = 95;
 
-    private List<Integer> indicesBullet = new ArrayList<>();
-    private List<Integer> indicesParachutists = new ArrayList<>();
-    private List<Integer> indicesHelicopters = new ArrayList<>();
+    private final List<Integer> indicesBullet;
+    private final List<Integer> indicesParachutists;
+    private final List<Integer> indicesHelicopters;
 
     public GamePanel() {
+        indicesBullet = new ArrayList<>();
+        indicesParachutists = new ArrayList<>();
+        indicesHelicopters = new ArrayList<>();
         try {
             backgroundImage = ImageIO.read(new File("src/main/resources/gamebackground.png"));
         } catch (IOException e) {
@@ -37,6 +41,9 @@ public class GamePanel extends JPanel {
     }
 
     public void setGameInfo(GameInfo gameInfo) {
+        indicesBullet.clear();
+        indicesParachutists.clear();
+        indicesHelicopters.clear();
         this.gameInfo = gameInfo;
         for (int i = 0; i < gameInfo.dtos().size(); i++) {
             if (gameInfo.dtos().get(i).dtoType() == DtoType.BULLET) {
@@ -54,12 +61,14 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(backgroundImage, 0, 0, this);
-        for (Dto dto : gameInfo.dtos()) {
-            switch (dto.dtoType()) {
-                case GUN -> drawGun(g, dto.x(), dto.y());
-                case HELICOPTER -> drawHelicopter(g, dto.x(), dto.additional());
-                case PARACHUTIST -> drawParachutist(g, dto.x(), dto.y(), dto.additional());
-                default -> drawBullet(g, dto.x(), dto.y());
+        if (gameInfo != null) {
+            for (Dto dto : gameInfo.dtos()) {
+                switch (dto.dtoType()) {
+                    case GUN -> drawGun(g, dto.x(), dto.y());
+                    case HELICOPTER -> drawHelicopter(g, dto.x(), dto.additional());
+                    case PARACHUTIST -> drawParachutist(g, dto.x(), dto.y(), dto.additional());
+                    default -> drawBullet(g, dto.x(), dto.y());
+                }
             }
         }
         repaint();
@@ -113,64 +122,74 @@ public class GamePanel extends JPanel {
     }
 
     public IndicesReduced getIndicesReducedObjects() {
-        ArrayList<Integer> indicesBullets = new ArrayList<>();
-        ArrayList<Integer> indicesHelicopters = new ArrayList<>();
-        ArrayList<Integer> indicesParachutists = new ArrayList<>();
+        ArrayList<Integer> indicesRemovedBullets = new ArrayList<>();
+        ArrayList<Integer> indicesRemovedHelicopters = new ArrayList<>();
+        ArrayList<Integer> indicesRemovedParachutists = new ArrayList<>();
         Rectangle screen = new Rectangle(0, 0, gameWidth, gameHeight);
         for (int i = 0; i < indicesBullet.size(); i++) {
             Dto dtoBullet = gameInfo.dtos().get(indicesBullet.get(i));
-            Rectangle bullet = new Rectangle(dtoBullet.x(),dtoBullet.y(), bulletWidth, bulletHeight);
+            Rectangle bullet = new Rectangle(dtoBullet.x(), dtoBullet.y(), bulletWidth, bulletHeight);
             for (int j = 0; j < indicesHelicopters.size(); j++) {
                 Dto dtoHelicopter = gameInfo.dtos().get(indicesHelicopters.get(j));
-                Rectangle helicopter = new Rectangle(dtoHelicopter.x(),dtoHelicopter.y(), helicopterWidth, helicopterHeight);
+                Rectangle helicopter = new Rectangle(dtoHelicopter.x(), dtoHelicopter.y(), helicopterWidth, helicopterHeight);
                 if (helicopter.intersects(bullet)) {
-                    indicesBullets.add(i);
-                    indicesHelicopters.add(j);
+                    indicesRemovedBullets.add(i);
+                    indicesRemovedHelicopters.add(j);
                 }
-                else if (!helicopter.intersects(screen)) {
-                    indicesHelicopters.add(j);
+                for (int k = 0; k < indicesParachutists.size(); k++) {
+                    Dto dtoParachutist = gameInfo.dtos().get(indicesParachutists.get(k));
+                    Rectangle parachutist = new Rectangle(dtoParachutist.x(), dtoParachutist.y(), parachutistWidth, parachutistHeight);
+                    if (parachutist.intersects(bullet)) {
+                        indicesRemovedBullets.add(i);
+                        indicesRemovedParachutists.add(k);
+                    }
+                    if (!bullet.intersects(screen)) {
+                        indicesRemovedBullets.add(i);
+                    }
                 }
-            }
-            for(int k=0;k<indicesParachutists.size();k++){
-                Dto dtoParachutist = gameInfo.dtos().get(indicesParachutists.get(k));
-                Rectangle parachutist = new Rectangle(dtoParachutist.x(),dtoParachutist.y(), parachutistWidth, parachutistHeight);
-                if (parachutist.intersects(bullet)) {
-                    indicesBullets.add(i);
-                    indicesParachutists.add(k);
-                }
-                else if (!parachutist.intersects(screen)) {
-                    indicesParachutists.add(k);
-                }
-            }
-            if (!bullet.intersects(screen)) {
-                indicesBullets.add(i);
             }
         }
-        int sizeBullets = indicesBullets.size();
-        for (int i = 1; i < sizeBullets; i++) {
-            if (indicesBullets.get(i) == indicesBullets.get(i - 1)) {
-                indicesBullets.remove(i);
+        for (int j = 0; j < indicesHelicopters.size(); j++) {
+            Dto dtoHelicopter = gameInfo.dtos().get(indicesHelicopters.get(j));
+            Rectangle helicopter = new Rectangle(dtoHelicopter.x(), dtoHelicopter.y(), helicopterWidth, helicopterHeight);
+            if (!helicopter.intersects(screen)) {
+                indicesRemovedHelicopters.add(j);
+            }
+        }
+        for (int k = 0; k < indicesParachutists.size(); k++) {
+            Dto dtoParachutist = gameInfo.dtos().get(indicesParachutists.get(k));
+            Rectangle parachutist = new Rectangle(dtoParachutist.x(), dtoParachutist.y(), parachutistWidth, parachutistHeight);
+            if (!parachutist.intersects(screen)) {
+                indicesRemovedParachutists.add(k);
+            }
+        }
+        Collections.sort(indicesRemovedBullets);
+        int sizeRemovedBullets = indicesRemovedBullets.size();
+        for (int i = 1; i < sizeRemovedBullets; i++) {
+            if (indicesRemovedBullets.get(i) == indicesRemovedBullets.get(i - 1)) {
+                indicesRemovedBullets.remove(i);
                 i--;
-                sizeBullets--;
+                sizeRemovedBullets--;
             }
         }
-        int sizeHelicopters = indicesHelicopters.size();
-        for (int i = 1; i < sizeHelicopters; i++) {
-            if (indicesHelicopters.get(i) == indicesHelicopters.get(i - 1)) {
-                indicesHelicopters.remove(i);
+        Collections.sort(indicesRemovedHelicopters);
+        int sizeRemovedHelicopters = indicesRemovedHelicopters.size();
+        for (int i = 1; i < sizeRemovedHelicopters; i++) {
+            if (indicesRemovedHelicopters.get(i) == indicesRemovedHelicopters.get(i - 1)) {
+                indicesRemovedHelicopters.remove(i);
                 i--;
-                sizeHelicopters--;
+                sizeRemovedHelicopters--;
             }
         }
-        int sizeParachutists = indicesParachutists.size();
-        for (int i = 1; i < sizeParachutists; i++) {
-            if (indicesParachutists.get(i) == indicesParachutists.get(i - 1)) {
-                indicesParachutists.remove(i);
+        Collections.sort(indicesRemovedParachutists);
+        int sizeRemovedParachutists = indicesRemovedParachutists.size();
+        for (int i = 1; i < sizeRemovedParachutists; i++) {
+            if (indicesRemovedParachutists.get(i) == indicesRemovedParachutists.get(i - 1)) {
+                indicesRemovedParachutists.remove(i);
                 i--;
-                sizeParachutists--;
+                sizeRemovedParachutists--;
             }
         }
-        Integer a;
-        return new IndicesReduced(indicesBullets, indicesHelicopters, indicesParachutists);
+        return new IndicesReduced(indicesRemovedBullets, indicesRemovedHelicopters, indicesRemovedParachutists);
     }
 }
