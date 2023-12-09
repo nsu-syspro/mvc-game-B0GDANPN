@@ -31,8 +31,8 @@ public final class Parachutist extends GameObject {
         this.onGround = onGround;
 
     }
-    public boolean getOnGround() {
-        return onGround;
+    public int getOnGround() {
+        return onGround ? 1 : 0;
     }
 
 

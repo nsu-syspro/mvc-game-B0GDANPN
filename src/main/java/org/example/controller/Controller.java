@@ -5,11 +5,6 @@ import org.example.view.*;
 import org.example.dto.*;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.Objects;
-
 public  class Controller implements Runnable, NewGameListener, ControllerListener,TableListener,ExitMenuListener {
     Game game;
     View view;
@@ -20,51 +15,39 @@ public  class Controller implements Runnable, NewGameListener, ControllerListene
     @Override
     public void newGame() {
         view.runGame();
-        game = new Game(this,view.getGameWidth(), view.getGameHeight(), view.getGunWidth(), view.getGunHeight());
+        game = new Game(this, View.getGameWidth(), View.getGameHeight(), View.getGunWidth(), View.getGunHeight());
 
-        Timer helicopterTimer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                game.createHelicopter(view.getGameWidth());
-            }
-        });
+        Timer helicopterTimer = new Timer(1000, e -> game.createHelicopter(View.getGameWidth()));
         helicopterTimer.start();
-        Timer parachutistTimer = new Timer(1100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                game.createParachutist(view.getParachutistWidth(), view.getParachutistHeight());
-            }
-        });
+        Timer parachutistTimer = new Timer(1100, e -> game.createParachutist(View.getParachutistWidth(), View.getParachutistHeight()));
         parachutistTimer.start();
         Timer gameTimer = new Timer(100, e -> {
+            game.updateGame(View.getGameHeight(), View.getSoldierHeight());
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
+            if (game.getnParachutistsReachedGround()>=5){
+                endGame();
+            }
         });
         gameTimer.start();
     }
+    public void endGame(){
+        int score=game.getScore();
 
+        view.endGame(score);
+    }
     @Override
     public void createBullet(){
-        game.createBullet(view.getGunWidth(), view.getGunHeight(), view.getBulletWidth(), view.getBulletHeight());
+        game.createBullet(View.getGunWidth(), View.getGunHeight(), View.getBulletWidth(), View.getBulletHeight());
     }
     @Override
     public void updateGun(int mouseX, int mouseY){
-        game.updateGun(mouseX, mouseY, view.getGunWidth(), view.getGunHeight());
+        game.updateGun(mouseX, mouseY, View.getGunWidth(), View.getGunHeight());
     }
 
     @Override
-    public List<Objects> getIntersectedBullets() {
-        view.getIntersectedBullets
-    }
-
-    @Override
-    public List<Objects> getIntersectedParachutists() {
-        return null;
-    }
-
-    @Override
-    public List<Objects> getIntersectedHelicopters() {
-        return null;
+    public IndicesReduced getIndicesReducedObjects(){
+        return view.getIndicesReducedObjects();
     }
 
     @Override

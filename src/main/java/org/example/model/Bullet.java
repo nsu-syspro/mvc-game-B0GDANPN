@@ -24,9 +24,7 @@ public final class Bullet extends GameObject {
 
 
     public void move() {
-        // Move the Bullet based on the calculated angle
         this.setX((int) (this.getX() + SPEED * Math.cos(angle)));
         this.setY((int) (this.getY() + SPEED * Math.sin(angle)));
-        ;
     }
 }

@@ -8,6 +8,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class View implements TableListener, ExitMenuListener {
@@ -156,29 +157,25 @@ public class View implements TableListener, ExitMenuListener {
         }
 
     }
-
+    public void endGame(int score){
+        try {
+            FileWriter writer = new FileWriter("file.txt", true);
+            writer.write(score + System.lineSeparator());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gameFrame.dispose();
+    }
     @Override
     public void exitMenu() {
         System.exit(0);
+    }
+    public IndicesReduced getIndicesReducedObjects() {
+        return gamePanel.getIndicesReducedObjects();
     }
 
     public void setGameInfo(GameInfo gameInfo) {
         gamePanel.setGameInfo(gameInfo);
     }
 }
-/*
-for (Bullet bullet : bullets) {
-            for (Parachutist parachutist : parachutists) {
-                if (parachutist.getBounds().intersects(bullet.getBounds())) {
-                    parachutistsToRemove.add(parachutist);
-                    bulletsToRemove.add(bullet);
-                }
-            }
-            for (Helicopter helicopter : helicopters) {
-                if (helicopter.getBounds().intersects(bullet.getBounds())) {
-                    helicoptersToRemove.add(helicopter);
-                    bulletsToRemove.add(bullet);
-                }
-            }
-        }
- */
