@@ -4,5 +4,6 @@ public enum DtoType {
     GUN,
     PARACHUTIST,
     HELICOPTER,
-    BULLET
+    BULLET,
+    SOLDIER
 }

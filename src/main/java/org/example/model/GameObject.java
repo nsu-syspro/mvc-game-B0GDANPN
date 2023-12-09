@@ -1,6 +1,6 @@
 package org.example.model;
 
-public sealed class GameObject permits Bullet,Parachutist,Helicopter,Gun{
+public sealed class GameObject permits Bullet, Paratrooper,Helicopter,Gun{
     private int x;
     private int y;
 

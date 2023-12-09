@@ -1,5 +1,6 @@
 package org.example.view;
 
+import org.example.config.GameConfig;
 import org.example.dto.*;
 
 import java.awt.*;
@@ -99,9 +100,12 @@ public class View {
     private GameFrame gameFrame;
     private final ControllerListener controllerListener;
 
-    public View(ControllerListener controllerListener) {
+    private static int SCALING_FACTOR = 10;
+
+    public View(ControllerListener controllerListener, GameConfig config) {
         this.controllerListener = controllerListener;
         try {
+            // CR: move from view to a separate class
             File file = new File("src/main/resources/configuration.txt");
             Scanner scanner = new Scanner(file);
             menuWidth = Integer.parseInt(scanner.nextLine());

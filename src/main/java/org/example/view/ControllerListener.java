@@ -2,13 +2,11 @@ package org.example.view;
 
 import org.example.dto.IndicesReduced;
 
-import java.util.List;
-
 public interface ControllerListener {
 
-    public void createBullet();
+    void createBullet();
 
-    public void updateGun(int mouseX, int mouseY);
-    public IndicesReduced getIndicesReducedObjects();
-    public void endGame();
+    void updateGun(int mouseX, int mouseY);
+    IndicesReduced getIndicesReducedObjects();
+    void endGame();
 }

@@ -5,41 +5,29 @@ import java.util.Random;
 public final class Helicopter extends GameObject {
     private static final int SPEED = 3;
     private int x;
-    private final int DIRECTION;
+    // CR: enum
+    private final Direction direction;
 
-    public Helicopter(int widthGame, boolean vector) {
-        if (vector) {
-            this.setX(widthGame - 1);
-        } else {
-            this.setX(0);
-        }
-        this.DIRECTION = vector ? -1 : 1;
+    private static final Random RANDOM = new Random();
 
+    public Helicopter(int widthGame) {
+        this.direction = Direction.values()[RANDOM.nextInt(0, Direction.values().length)];
+        this.x = direction == Direction.LEFT ? widthGame - 1 : 0;
     }
 
     public int getX() {
         return x;
     }
 
-    public int getDirection() {
-        return DIRECTION;
+    public Direction getDirection() {
+        return direction;
     }
 
     public void setX(int x) {
         this.x = x;
     }
 
-    Parachutist createParatrooper(int helicopterWidth, int gameWidth, int gameHeight) {
-        Random random = new Random();
-        if (random.nextInt(100) < 15) {
-            Parachutist parachutist = new Parachutist(this.getX() + helicopterWidth / 2, gameWidth, gameHeight);
-            return parachutist;
-
-        }
-        return null;
-    }
-
     public void move() {
-        this.setX(this.getX() + SPEED * DIRECTION);
+        this.setX(this.getX() + direction.delta(SPEED));
     }
 }

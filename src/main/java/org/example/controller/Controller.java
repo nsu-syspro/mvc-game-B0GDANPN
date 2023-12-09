@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.config.GameConfig;
 import org.example.model.*;
 import org.example.view.*;
 import org.example.dto.*;
@@ -9,20 +10,25 @@ import javax.swing.*;
 public class Controller implements Runnable, NewGameListener, ControllerListener, TableListener, ExitMenuListener {
     Game game;
     View view;
+    private final GameConfig gameConfig;
+
+    public Controller(GameConfig gameConfig) {
+        this.gameConfig = gameConfig;
+    }
 
     public void run() {
-        view = new View(this);
+        view = new View(this, gameConfig);
         view.runMenu(this, this, this);
     }
 
     @Override
     public void newGame() {
         view.runGame();
-        game = new Game(this, View.getGameWidth(), View.getGameHeight(), View.getGunWidth(), View.getGunHeight());
+        game = new Game(this, gameConfig);
 
         Timer helicopterTimer = new Timer(1300, e -> game.createHelicopter(View.getGameWidth()));
         helicopterTimer.start();
-        Timer parachutistTimer = new Timer(1500, e -> game.createParachutist(View.getParachutistWidth(), View.getParachutistHeight()));
+        Timer parachutistTimer = new Timer(1500, e -> game.createParatrooper(View.getParachutistWidth(), View.getParachutistHeight()));
         parachutistTimer.start();
         Timer gameTimer = new Timer(100, e -> {
             GameInfo gameInfo = game.toGameInfo();

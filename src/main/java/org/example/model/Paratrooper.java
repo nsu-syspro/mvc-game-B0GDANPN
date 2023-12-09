@@ -23,7 +23,7 @@ public void drawSoldier(Graphics g) {
     }
 */
 
-public final class Parachutist extends GameObject {
+public final class Paratrooper extends GameObject {
     private boolean onGround = false;
     private static final int SPEED = 2;
 
@@ -37,7 +37,7 @@ public final class Parachutist extends GameObject {
     }
 
 
-    public Parachutist(int x, int parachutistWidth, int parachutistHeight) {
+    public Paratrooper(int x, int parachutistWidth, int parachutistHeight) {
         this.setX(x - parachutistWidth / 2);
         this.setY(parachutistHeight / 2);
     }
