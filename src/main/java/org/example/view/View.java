@@ -1,6 +1,7 @@
 package org.example.view;
 
 import org.example.dto.*;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -157,7 +158,8 @@ public class View implements TableListener, ExitMenuListener {
         }
 
     }
-    public void endGame(int score){
+
+    public void endGame(int score) {
         try {
             FileWriter writer = new FileWriter("file.txt", true);
             writer.write(score + System.lineSeparator());
@@ -167,10 +169,12 @@ public class View implements TableListener, ExitMenuListener {
         }
         gameFrame.dispose();
     }
+
     @Override
     public void exitMenu() {
         System.exit(0);
     }
+
     public IndicesReduced getIndicesReducedObjects() {
         return gamePanel.getIndicesReducedObjects();
     }

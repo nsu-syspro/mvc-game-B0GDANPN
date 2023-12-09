@@ -1,7 +1,6 @@
 package org.example.model;
 
 
-
 public final class Gun extends GameObject {
     private static final int SHOOT_DELAY = 200;
     private double angle;
@@ -16,6 +15,7 @@ public final class Gun extends GameObject {
     public double getAngle() {
         return angle;
     }
+
     public void setAngle(int mouseX, int mouseY, int widthGun, int heightGun) {
         angle = Math.atan2(mouseY - this.getY() - heightGun / 2, mouseX - this.getX() - widthGun / 2);
 

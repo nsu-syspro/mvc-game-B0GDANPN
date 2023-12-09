@@ -10,4 +10,5 @@ public interface ControllerListener {
 
     public void updateGun(int mouseX, int mouseY);
     public IndicesReduced getIndicesReducedObjects();
+    public void endGame();
 }

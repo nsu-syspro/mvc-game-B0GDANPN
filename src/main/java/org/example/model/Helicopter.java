@@ -1,6 +1,7 @@
 package org.example.model;
 
 import java.util.Random;
+
 public final class Helicopter extends GameObject {
     private static final int SPEED = 3;
     private int x;
@@ -8,7 +9,7 @@ public final class Helicopter extends GameObject {
 
     public Helicopter(int widthGame, boolean vector) {
         if (vector) {
-            this.setX(widthGame-1);
+            this.setX(widthGame - 1);
         } else {
             this.setX(0);
         }
@@ -28,7 +29,7 @@ public final class Helicopter extends GameObject {
         this.x = x;
     }
 
-    Parachutist createParatrooper(int helicopterWidth,int gameWidth,int gameHeight) {
+    Parachutist createParatrooper(int helicopterWidth, int gameWidth, int gameHeight) {
         Random random = new Random();
         if (random.nextInt(100) < 15) {
             Parachutist parachutist = new Parachutist(this.getX() + helicopterWidth / 2, gameWidth, gameHeight);

@@ -31,6 +31,7 @@ public final class Parachutist extends GameObject {
         this.onGround = true;
 
     }
+
     public int getOnGround() {
         return onGround ? 1 : 0;
     }
@@ -45,7 +46,7 @@ public final class Parachutist extends GameObject {
         if (!onGround) {
             this.setY(this.getY() + SPEED);
         }
-        if (this.getY() >= gameHeight - soldatHeight) {
+        if (this.getY() >= gameHeight - 0.5 * soldatHeight) {
             this.setOnGround();
             this.setY((int) (gameHeight - 1.5 * soldatHeight));
         }

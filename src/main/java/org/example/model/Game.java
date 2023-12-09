@@ -9,7 +9,6 @@ import java.util.Random;
 
 public class Game {
     private int score;
-    private int countParachutistOnGround;
 
     private final List<Bullet> bullets;
     private final List<Parachutist> parachutists;
@@ -19,7 +18,6 @@ public class Game {
 
     public Game(ControllerListener controllerListener, int widthGame, int heightGame, int gunWidth, int gunHeight) {
         score = 0;
-        countParachutistOnGround = 0;
         this.controllerListener = controllerListener;
         gun = new Gun(widthGame / 2, heightGame, gunWidth, gunHeight);
         bullets = new ArrayList<>();
@@ -35,16 +33,16 @@ public class Game {
         List<Integer> indicesHelicoptersToRemove = getIndicesReducedObjects.indicesHelicopters();
         List<Integer> indicesParachutistsToRemove = getIndicesReducedObjects.indicesParachutists();
         for (int i = indicesBulletsToRemove.size() - 1; i >= 0; i--) {
-            int deb=indicesBulletsToRemove.get(i);
-            bullets.remove(deb);
+            int ind = indicesBulletsToRemove.get(i);
+            bullets.remove(ind);
         }
         for (int i = indicesHelicoptersToRemove.size() - 1; i >= 0; i--) {
-            int deb=indicesHelicoptersToRemove.get(i);
-            helicopters.remove(deb);
+            int ind = indicesHelicoptersToRemove.get(i);
+            helicopters.remove(ind);
         }
         for (int i = indicesParachutistsToRemove.size() - 1; i >= 0; i--) {
-            int deb=indicesParachutistsToRemove.get(i);
-            parachutists.remove(deb);
+            int ind = indicesParachutistsToRemove.get(i);
+            parachutists.remove(ind);
         }
     }
 
@@ -52,10 +50,14 @@ public class Game {
         for (Bullet bullet : bullets) {
             bullet.move();
         }
+        int countParachutistOnGround = 0;
         for (Parachutist parachutist : parachutists) {
             parachutist.move(heightGame, heightSoldier);
             if (parachutist.getOnGround() == 1) {
                 countParachutistOnGround++;
+                if (countParachutistOnGround >= 5) {
+                    controllerListener.endGame();
+                }
             }
         }
         for (Helicopter helicopter : helicopters) {
@@ -99,10 +101,6 @@ public class Game {
 
     public int getScore() {
         return score;
-    }
-
-    public int getCountParachutistOnGround() {
-        return countParachutistOnGround;
     }
 
     public GameInfo toGameInfo() {

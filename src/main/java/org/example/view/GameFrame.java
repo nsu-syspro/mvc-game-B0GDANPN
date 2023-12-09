@@ -7,7 +7,7 @@ public class GameFrame extends JFrame {
     public GameFrame(int gameWidth, int gameHeight) {
         setTitle("Paratrooper Game");
         setSize(gameWidth, gameHeight);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
     }

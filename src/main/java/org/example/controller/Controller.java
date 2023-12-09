@@ -24,16 +24,12 @@ public  class Controller implements Runnable, NewGameListener, ControllerListene
         Timer gameTimer = new Timer(20, e -> {
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
-            if (game.getCountParachutistOnGround()>=5){
-                endGame();
-            }
             game.updateGame(View.getGameHeight(), View.getSoldierHeight());
         });
         gameTimer.start();
     }
     public void endGame(){
         int score=game.getScore();
-
         view.endGame(score);
     }
     @Override
