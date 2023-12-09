@@ -12,22 +12,22 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class View {
-    private static final int menuWidth = 900;
-    private static final int menuHeight = 540;
-    private static final int tableWidth = 600;
-    private static final int tableHeight = 600;
-    private static final int gameWidth = 1200;
-    private static final int gameHeight = 800;
-    private static final int gunWidth = 77;
-    private static final int gunHeight = 130;
-    private static final int bulletWidth = 32;
-    private static final int bulletHeight = 32;
-    private static final int soldierWidth = 72;
-    private static final int soldierHeight = 72;
-    private static final int parachutistWidth = 72;
-    private static final int parachutistHeight = 90;
-    private static final int helicopterWidth = 200;
-    private static final int helicopterHeight = 95;
+    private static  int menuWidth;
+    private static  int menuHeight;
+    private static  int tableWidth;
+    private static  int tableHeight;
+    private static  int gameWidth;
+    private static  int gameHeight;
+    private static  int gunWidth;
+    private static  int gunHeight;
+    private static  int bulletWidth;
+    private static  int bulletHeight;
+    private static  int soldierWidth;
+    private static  int soldierHeight;
+    private static  int parachutistWidth;
+    private static  int parachutistHeight;
+    private static  int helicopterWidth;
+    private static  int helicopterHeight;
 
     public static int getGameHeight() {
         return gameHeight;
@@ -101,6 +101,30 @@ public class View {
 
     public View(ControllerListener controllerListener) {
         this.controllerListener = controllerListener;
+        try {
+            File file = new File("src/main/resources/configuration.txt");
+            Scanner scanner = new Scanner(file);
+            menuWidth = Integer.parseInt(scanner.nextLine());
+            menuHeight = Integer.parseInt(scanner.nextLine());
+            tableWidth = Integer.parseInt(scanner.nextLine());
+            tableHeight = Integer.parseInt(scanner.nextLine());
+            gameWidth = Integer.parseInt(scanner.nextLine());
+            gameHeight = Integer.parseInt(scanner.nextLine());
+            gunWidth = Integer.parseInt(scanner.nextLine());
+            gunHeight = Integer.parseInt(scanner.nextLine());
+            bulletWidth = Integer.parseInt(scanner.nextLine());
+            bulletHeight = Integer.parseInt(scanner.nextLine());
+            soldierWidth = Integer.parseInt(scanner.nextLine());
+            soldierHeight = Integer.parseInt(scanner.nextLine());
+            parachutistWidth = Integer.parseInt(scanner.nextLine());
+            parachutistHeight = Integer.parseInt(scanner.nextLine());
+            helicopterWidth = Integer.parseInt(scanner.nextLine());
+            helicopterHeight = Integer.parseInt(scanner.nextLine());
+            scanner.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void runMenu(NewGameListener newGameListener, TableListener tableListener, ExitMenuListener exitMenuListener) {
