@@ -29,10 +29,10 @@ public class Game {
         moveObjects(heightGame, heightSoldier);
         // CR: move to model
         IndicesReduced getIndicesReducedObjects = controllerListener.getIndicesReducedObjects();
-        increaseScore(getIndicesReducedObjects.indicesHelicopters().size() + getIndicesReducedObjects.indicesParachutists().size());
+        increaseScore(getIndicesReducedObjects.indicesHelicopters().size() + getIndicesReducedObjects.indicesParatroopers().size());
         List<Integer> indicesBulletsToRemove = getIndicesReducedObjects.indicesBullets();
         List<Integer> indicesHelicoptersToRemove = getIndicesReducedObjects.indicesHelicopters();
-        List<Integer> indicesParachutistsToRemove = getIndicesReducedObjects.indicesParachutists();
+        List<Integer> indicesParatroopersToRemove = getIndicesReducedObjects.indicesParatroopers();
         for (int i = indicesBulletsToRemove.size() - 1; i >= 0; i--) {
             int ind = indicesBulletsToRemove.get(i);
             bullets.remove(ind);
@@ -40,8 +40,8 @@ public class Game {
         for (int i = indicesHelicoptersToRemove.size() - 1; i >= 0; i--) {
             helicopters.remove((int)indicesHelicoptersToRemove.get(i));
         }
-        for (int i = indicesParachutistsToRemove.size() - 1; i >= 0; i--) {
-            int ind = indicesParachutistsToRemove.get(i);
+        for (int i = indicesParatroopersToRemove.size() - 1; i >= 0; i--) {
+            int ind = indicesParatroopersToRemove.get(i);
             paratroopers.remove(ind);
         }
     }
@@ -50,12 +50,12 @@ public class Game {
         for (Bullet bullet : bullets) {
             bullet.move();
         }
-        int countParachutistOnGround = 0;
+        int countParatrooperOnGround = 0;
         for (Paratrooper paratrooper : paratroopers) {
             paratrooper.move(heightGame, heightSoldier);
             if (paratrooper.getOnGround() == 1) {
-                countParachutistOnGround++;
-                if (countParachutistOnGround >= 5) {
+                countParatrooperOnGround++;
+                if (countParatrooperOnGround >= 5) {
                     controllerListener.endGame();
                 }
             }
@@ -65,12 +65,12 @@ public class Game {
         }
     }
 
-    public void createParatrooper(int widthParachutist, int heightParachutist) {
+    public void createParatrooper(int widthParatrooper, int heightParatrooper) {
         int size = helicopters.size();
         Random random = new Random();
         for (int i = 1; i < size; i++) {
             if (random.nextInt(100) < 15) {
-                Paratrooper paratrooper = new Paratrooper(helicopters.get(i).getX(), widthParachutist, heightParachutist);
+                Paratrooper paratrooper = new Paratrooper(helicopters.get(i).getX(), widthParatrooper, heightParatrooper);
                 paratroopers.add(paratrooper);
             }
         }
@@ -113,7 +113,7 @@ public class Game {
             dtos.add(new Dto(h.getX(), h.getY(), DtoType.HELICOPTER, h.getDirection()));
         }
         for (Paratrooper p : paratroopers) {
-            dtos.add(new Dto(p.getX(), p.getY(), DtoType.PARACHUTIST, p.getOnGround()));
+            dtos.add(new Dto(p.getX(), p.getY(), DtoType.PARATROOPER, p.getOnGround()));
         }
         dtos.add(new Dto(gun.getX(), gun.getY(), DtoType.GUN));
 
