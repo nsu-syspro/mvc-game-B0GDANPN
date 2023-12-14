@@ -1,15 +1,4 @@
 package org.example.model;
-/*
-public void drawBullet(Graphics g,Bullet bullet) {
-    //private static final int WIDTH = 32;
-    //private static final int HEIGHT = 32;
-    try {
-        BufferedImage image = ImageIO.read(new File("src/main/resources/bullet.png"));
-        g.drawImage(image, (int) bullet.getX(), (int) bullet.getY(), null);
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}*/
 
 public final class Bullet extends GameObject {
 
@@ -26,5 +15,6 @@ public final class Bullet extends GameObject {
     public void move() {
         this.setX((int) (this.getX() + SPEED * Math.cos(angle)));
         this.setY((int) (this.getY() + SPEED * Math.sin(angle)));
+
     }
 }

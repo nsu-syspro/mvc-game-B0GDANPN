@@ -25,8 +25,8 @@ public class View {
     private static  int bulletHeight;
     private static  int soldierWidth;
     private static  int soldierHeight;
-    private static  int parachutistWidth;
-    private static  int parachutistHeight;
+    private static  int paratrooperWidth;
+    private static  int paratrooperHeight;
     private static  int helicopterWidth;
     private static  int helicopterHeight;
 
@@ -78,12 +78,12 @@ public class View {
         return soldierWidth;
     }
 
-    public static int getParachutistHeight() {
-        return parachutistHeight;
+    public static int getParatrooperHeight() {
+        return paratrooperHeight;
     }
 
-    public static int getParachutistWidth() {
-        return parachutistWidth;
+    public static int getParatrooperWidth() {
+        return paratrooperWidth;
     }
 
     public static int getHelicopterHeight() {
@@ -120,8 +120,8 @@ public class View {
             bulletHeight = Integer.parseInt(scanner.nextLine());
             soldierWidth = Integer.parseInt(scanner.nextLine());
             soldierHeight = Integer.parseInt(scanner.nextLine());
-            parachutistWidth = Integer.parseInt(scanner.nextLine());
-            parachutistHeight = Integer.parseInt(scanner.nextLine());
+            paratrooperWidth = Integer.parseInt(scanner.nextLine());
+            paratrooperHeight = Integer.parseInt(scanner.nextLine());
             helicopterWidth = Integer.parseInt(scanner.nextLine());
             helicopterHeight = Integer.parseInt(scanner.nextLine());
             scanner.close();
