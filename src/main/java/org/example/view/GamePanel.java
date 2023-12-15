@@ -70,7 +70,7 @@ public class GamePanel extends JPanel {
                 switch (dto.type()) {
                     case GUN:
                         GunDto gunDto = (GunDto) dto;
-                        drawGun(g, gunDto.x(), gunDto.y(),gunDto.angle());
+                        drawGun(g, gunDto.x(), gunDto.y(), gunDto.angle());
                         break;
                     case HELICOPTER:
                         HelicopterDto helicopterDto = (HelicopterDto) dto;
@@ -88,12 +88,12 @@ public class GamePanel extends JPanel {
         repaint();
     }
 
-    private void drawGun(Graphics g, int x, int y,double angle) {
-        int centerX=x, centerY=y;
+    private void drawGun(Graphics g, int x, int y, double angle) {
+        int centerX = x, centerY = y;
         try {
             BufferedImage imageGun = ImageIO.read(new File("src/main/resources/gunbase.png"));
-            centerX+=imageGun.getWidth()/2;
-            centerY += imageGun.getHeight()*1.1;
+            centerX += imageGun.getWidth() / 2;
+            centerY += imageGun.getHeight() * 1.1;
             g.drawImage(imageGun, x, y, null);
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,10 +101,8 @@ public class GamePanel extends JPanel {
         try {
             BufferedImage imageBarrel = ImageIO.read(new File("src/main/resources/barrelgun.png"));
             Graphics2D g2d = (Graphics2D) g;
-
-            // Create an AffineTransform to apply the rotation
             AffineTransform transform = new AffineTransform();
-            transform.rotate(angle+3.14/2, centerX, centerY);
+            transform.rotate(angle + 3.14 / 2, centerX, centerY);
             g2d.setTransform(transform);
 
             g2d.drawImage(imageBarrel, x, y, null);
