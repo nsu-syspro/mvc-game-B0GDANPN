@@ -3,7 +3,7 @@ package org.example.model;
 import java.util.Random;
 
 public final class Helicopter extends GameObject {
-    private static final int SPEED = 3;
+    private static final int SPEED = 4;
     private int x;
     // CR: enum
     private final Direction direction;
@@ -27,6 +27,8 @@ public final class Helicopter extends GameObject {
         this.x = x;
     }
 
+
+    @Override
     public void move() {
         this.setX(this.getX() + direction.delta(SPEED));
     }

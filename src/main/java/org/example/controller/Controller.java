@@ -1,9 +1,10 @@
 package org.example.controller;
 
 import org.example.config.GameConfig;
-import org.example.model.*;
+import org.example.dto.GameInfo;
+import org.example.dto.IndicesReduced;
+import org.example.model.Game;
 import org.example.view.*;
-import org.example.dto.*;
 
 import javax.swing.*;
 
@@ -25,15 +26,14 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
     public void newGame() {
         view.runGame();
         game = new Game(this, gameConfig);
-
-        Timer helicopterTimer = new Timer(1300, e -> game.createHelicopter(View.getGameWidth()));
+        Timer helicopterTimer = new Timer(1300, e -> game.createHelicopter());
         helicopterTimer.start();
-        Timer parachutistTimer = new Timer(1500, e -> game.createParatrooper(View.getParachutistWidth(), View.getParachutistHeight()));
+        Timer parachutistTimer = new Timer(1500, e -> game.createParatrooper());
         parachutistTimer.start();
         Timer gameTimer = new Timer(100, e -> {
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
-            game.updateGame(View.getGameHeight(), View.getSoldierHeight());
+            game.updateGame();
         });
         gameTimer.start();
     }
@@ -44,12 +44,12 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
 
     @Override
     public void createBullet() {
-        game.createBullet(View.getGunWidth(), View.getGunHeight(), View.getBulletWidth(), View.getBulletHeight());
+        game.createBullet();
     }
 
     @Override
     public void updateGun(int mouseX, int mouseY) {
-        game.updateGun(mouseX, mouseY, View.getGunWidth(), View.getGunHeight());
+        game.updateGun(mouseX, mouseY);
     }
 
     @Override

@@ -2,6 +2,8 @@ package org.example.model;
 
 
 public final class Paratrooper extends GameObject {
+    private final int gameHeight;
+    private final int soldatHeight;
     private boolean onGround = false;
     private static final int SPEED = 2;
 
@@ -15,12 +17,15 @@ public final class Paratrooper extends GameObject {
     }
 
 
-    public Paratrooper(int x, int paratrooperWidth, int paratrooperHeight) {
+    public Paratrooper(int x, int paratrooperWidth, int paratrooperHeight, int soldatHeight, int gameHeight) {
+        this.gameHeight = gameHeight;
+        this.soldatHeight = soldatHeight;
         this.setX(x - paratrooperWidth / 2);
         this.setY(paratrooperHeight / 2);
     }
 
-    public void move(int gameHeight, int soldatHeight) {
+    @Override
+    public void move() {
         if (!onGround) {
             this.setY(this.getY() + SPEED);
         }

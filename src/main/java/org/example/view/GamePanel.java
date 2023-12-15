@@ -4,11 +4,12 @@ package org.example.view;
 import org.example.dto.*;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.JPanel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,12 +47,15 @@ public class GamePanel extends JPanel {
         indicesHelicopters.clear();
         this.gameInfo = gameInfo;
         for (int i = 0; i < gameInfo.dtos().size(); i++) {
-            if (gameInfo.dtos().get(i).dtoType() == DtoType.BULLET) {
+            if (gameInfo.dtos().get(i).type() == DtoType.BULLET) {
                 indicesBullet.add(i);
-            } else if (gameInfo.dtos().get(i).dtoType() == DtoType.HELICOPTER) {
+            } else if (gameInfo.dtos().get(i).type() == DtoType.HELICOPTER) {
                 indicesHelicopters.add(i);
-            } else if (gameInfo.dtos().get(i).dtoType() == DtoType.PARACHUTIST && gameInfo.dtos().get(i).additional() == 0) {
-                indicesParatroopers.add(i);
+            } else if (gameInfo.dtos().get(i).type() == DtoType.PARATROOPER) {
+                ParatrooperDto paratrooperDto = (ParatrooperDto) gameInfo.dtos().get(i);
+                if (paratrooperDto.onGround() == 0) {
+                    indicesParatroopers.add(i);
+                }
             }
         }
     }
@@ -62,22 +66,47 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         g.drawImage(backgroundImage, 0, 0, this);
         if (gameInfo != null) {
-            for (Dto dto : gameInfo.dtos()) {
-                switch (dto.dtoType()) {
-                    case GUN -> drawGun(g, dto.x(), dto.y());
-                    case HELICOPTER -> drawHelicopter(g, dto.x(), dto.additional());
-                    case PARACHUTIST -> drawParatrooper(g, dto.x(), dto.y(), dto.additional());
-                    default -> drawBullet(g, dto.x(), dto.y());
+            for (GameObjectInfo dto : gameInfo.dtos()) {
+                switch (dto.type()) {
+                    case GUN:
+                        GunDto gunDto = (GunDto) dto;
+                        drawGun(g, gunDto.x(), gunDto.y(), gunDto.angle());
+                        break;
+                    case HELICOPTER:
+                        HelicopterDto helicopterDto = (HelicopterDto) dto;
+                        drawHelicopter(g, helicopterDto.x(), helicopterDto.getDirection());
+                        break;
+                    case PARATROOPER:
+                        ParatrooperDto paratrooperDto = (ParatrooperDto) dto;
+                        drawParatrooper(g, paratrooperDto.x(), paratrooperDto.y(), paratrooperDto.onGround());
+                        break;
+                    default:
+                        drawBullet(g, dto.x(), dto.y());
                 }
             }
         }
         repaint();
     }
 
-    private void drawGun(Graphics g, int x, int y) {
+    private void drawGun(Graphics g, int x, int y, double angle) {
+        int centerX = x, centerY = y;
         try {
-            BufferedImage image = ImageIO.read(new File("src/main/resources/gunbase.png"));
-            g.drawImage(image, x, y, null);
+            BufferedImage imageGun = ImageIO.read(new File("src/main/resources/gunbase.png"));
+            centerX += imageGun.getWidth() / 2;
+            centerY += imageGun.getHeight() * 1.1;
+            g.drawImage(imageGun, x, y, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            BufferedImage imageBarrel = ImageIO.read(new File("src/main/resources/barrelgun.png"));
+            Graphics2D g2d = (Graphics2D) g;
+            AffineTransform transform = new AffineTransform();
+            transform.rotate(angle + 3.14 / 2, centerX, centerY);
+            g2d.setTransform(transform);
+
+            g2d.drawImage(imageBarrel, x, y, null);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -127,17 +156,17 @@ public class GamePanel extends JPanel {
         ArrayList<Integer> indicesRemovedParatroopers = new ArrayList<>();
         Rectangle screen = new Rectangle(0, 0, gameWidth, gameHeight);
         for (int i = 0; i < indicesBullet.size(); i++) {
-            Dto dtoBullet = gameInfo.dtos().get(indicesBullet.get(i));
+            GameObjectInfo dtoBullet = gameInfo.dtos().get(indicesBullet.get(i));
             Rectangle bullet = new Rectangle(dtoBullet.x(), dtoBullet.y(), bulletWidth, bulletHeight);
             for (int j = 0; j < indicesHelicopters.size(); j++) {
-                Dto dtoHelicopter = gameInfo.dtos().get(indicesHelicopters.get(j));
+                GameObjectInfo dtoHelicopter = gameInfo.dtos().get(indicesHelicopters.get(j));
                 Rectangle helicopter = new Rectangle(dtoHelicopter.x(), dtoHelicopter.y(), helicopterWidth, helicopterHeight);
                 if (helicopter.intersects(bullet)) {
                     indicesRemovedBullets.add(i);
                     indicesRemovedHelicopters.add(j);
                 }
                 for (int k = 0; k < indicesParatroopers.size(); k++) {
-                    Dto dtoParatrooper = gameInfo.dtos().get(indicesParatroopers.get(k));
+                    GameObjectInfo dtoParatrooper = gameInfo.dtos().get(indicesParatroopers.get(k));
                     Rectangle paratrooper = new Rectangle(dtoParatrooper.x(), dtoParatrooper.y(), paratrooperWidth, paratrooperHeight);
                     if (paratrooper.intersects(bullet)) {
                         indicesRemovedBullets.add(i);
@@ -150,14 +179,14 @@ public class GamePanel extends JPanel {
             }
         }
         for (int j = 0; j < indicesHelicopters.size(); j++) {
-            Dto dtoHelicopter = gameInfo.dtos().get(indicesHelicopters.get(j));
+            GameObjectInfo dtoHelicopter = gameInfo.dtos().get(indicesHelicopters.get(j));
             Rectangle helicopter = new Rectangle(dtoHelicopter.x(), dtoHelicopter.y(), helicopterWidth, helicopterHeight);
             if (!helicopter.intersects(screen)) {
                 indicesRemovedHelicopters.add(j);
             }
         }
         for (int k = 0; k < indicesParatroopers.size(); k++) {
-            Dto dtoParatrooper = gameInfo.dtos().get(indicesParatroopers.get(k));
+            GameObjectInfo dtoParatrooper = gameInfo.dtos().get(indicesParatroopers.get(k));
             Rectangle paratrooper = new Rectangle(dtoParatrooper.x(), dtoParatrooper.y(), paratrooperWidth, paratrooperHeight);
             if (!paratrooper.intersects(screen)) {
                 indicesRemovedParatroopers.add(k);
