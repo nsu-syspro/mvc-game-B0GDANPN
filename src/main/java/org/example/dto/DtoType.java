@@ -2,8 +2,7 @@ package org.example.dto;
 
 public enum DtoType {
     GUN,
-    PARACHUTIST,
+    PARATROOPER,
     HELICOPTER,
-    BULLET,
-    SOLDIER
+    BULLET
 }

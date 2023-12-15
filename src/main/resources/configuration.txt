@@ -1,16 +1,9 @@
-900
-540
-600
-600
-1200
-800
-77
-130
-32
-32
-72
-72
-72
-90
-200
-95
+menu 900 540
+table 600 600
+game 1200 800
+gun 77 130
+bullet 32 32
+soldier 72 72
+paratrooper 72 90
+helicopter 200 95
+barrel 77 114

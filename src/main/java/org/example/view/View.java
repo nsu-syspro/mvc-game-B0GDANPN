@@ -1,7 +1,8 @@
 package org.example.view;
 
 import org.example.config.GameConfig;
-import org.example.dto.*;
+import org.example.dto.GameInfo;
+import org.example.dto.IndicesReduced;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -13,133 +14,30 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class View {
-    private static  int menuWidth;
-    private static  int menuHeight;
-    private static  int tableWidth;
-    private static  int tableHeight;
-    private static  int gameWidth;
-    private static  int gameHeight;
-    private static  int gunWidth;
-    private static  int gunHeight;
-    private static  int bulletWidth;
-    private static  int bulletHeight;
-    private static  int soldierWidth;
-    private static  int soldierHeight;
-    private static  int paratrooperWidth;
-    private static  int paratrooperHeight;
-    private static  int helicopterWidth;
-    private static  int helicopterHeight;
-
-    public static int getGameHeight() {
-        return gameHeight;
-    }
-
-    public static int getGameWidth() {
-        return gameWidth;
-    }
-
-    public static int getMenuHeight() {
-        return menuHeight;
-    }
-
-    public static int getMenuWidth() {
-        return menuWidth;
-    }
-
-    public static int getTableHeight() {
-        return tableHeight;
-    }
-
-    public static int getTableWidth() {
-        return tableWidth;
-    }
-
-    public static int getGunHeight() {
-        return gunHeight;
-    }
-
-    public static int getGunWidth() {
-        return gunWidth;
-    }
-
-    public static int getBulletHeight() {
-        return bulletHeight;
-    }
-
-    public static int getBulletWidth() {
-        return bulletWidth;
-    }
-
-    public static int getSoldierHeight() {
-        return soldierHeight;
-    }
-
-    public static int getSoldierWidth() {
-        return soldierWidth;
-    }
-
-    public static int getParatrooperHeight() {
-        return paratrooperHeight;
-    }
-
-    public static int getParatrooperWidth() {
-        return paratrooperWidth;
-    }
-
-    public static int getHelicopterHeight() {
-        return helicopterHeight;
-    }
-
-    public static int getHelicopterWidth() {
-        return helicopterWidth;
-    }
-
     private MenuFrame menuFrame;
     private MenuPanel menuPanel;
     private GamePanel gamePanel;
     private GameFrame gameFrame;
+    private final GameConfig gameConfig;
     private final ControllerListener controllerListener;
 
-    private static int SCALING_FACTOR = 10;
+    private static int SCALING_FACTOR = 10;//Хз зачем
 
     public View(ControllerListener controllerListener, GameConfig config) {
         this.controllerListener = controllerListener;
-        try {
-            // CR: move from view to a separate class
-            File file = new File("src/main/resources/configuration.txt");
-            Scanner scanner = new Scanner(file);
-            menuWidth = Integer.parseInt(scanner.nextLine());
-            menuHeight = Integer.parseInt(scanner.nextLine());
-            tableWidth = Integer.parseInt(scanner.nextLine());
-            tableHeight = Integer.parseInt(scanner.nextLine());
-            gameWidth = Integer.parseInt(scanner.nextLine());
-            gameHeight = Integer.parseInt(scanner.nextLine());
-            gunWidth = Integer.parseInt(scanner.nextLine());
-            gunHeight = Integer.parseInt(scanner.nextLine());
-            bulletWidth = Integer.parseInt(scanner.nextLine());
-            bulletHeight = Integer.parseInt(scanner.nextLine());
-            soldierWidth = Integer.parseInt(scanner.nextLine());
-            soldierHeight = Integer.parseInt(scanner.nextLine());
-            paratrooperWidth = Integer.parseInt(scanner.nextLine());
-            paratrooperHeight = Integer.parseInt(scanner.nextLine());
-            helicopterWidth = Integer.parseInt(scanner.nextLine());
-            helicopterHeight = Integer.parseInt(scanner.nextLine());
-            scanner.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        this.gameConfig = config;
     }
 
     public void runMenu(NewGameListener newGameListener, TableListener tableListener, ExitMenuListener exitMenuListener) {
-        menuFrame = new MenuFrame(menuWidth, menuHeight);
-        menuPanel = new MenuPanel(newGameListener, tableListener, exitMenuListener, menuWidth, menuHeight);
+        menuFrame = new MenuFrame(gameConfig.getMenuWidth(),
+                gameConfig.getMenuHeight());
+        menuPanel = new MenuPanel(newGameListener, tableListener, exitMenuListener, gameConfig.getMenuWidth(), gameConfig.getMenuHeight());
         menuFrame.add(menuPanel, BorderLayout.CENTER);
         menuFrame.setContentPane(menuPanel);
     }
 
     public void runGame() {
-        gameFrame = new GameFrame(gameWidth, gameHeight);
+        gameFrame = new GameFrame(gameConfig.getGameWidth(), gameConfig.getGameHeight());
         gamePanel = new GamePanel();
         gamePanel.addMouseListener(new MouseAdapter() {
             @Override

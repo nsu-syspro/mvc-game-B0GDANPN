@@ -18,4 +18,6 @@ public sealed class GameObject permits Bullet, Paratrooper,Helicopter,Gun{
     public void setY(int y) {
         this.y = y;
     }
+    public void move() {
+    }
 }

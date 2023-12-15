@@ -17,7 +17,7 @@ public final class Gun extends GameObject {
     }
 
     public void setAngle(int mouseX, int mouseY, int widthGun, int heightGun) {
-        angle = Math.atan2(mouseY - this.getY() - heightGun / 2, mouseX - this.getX() - widthGun / 2);
+        angle = Math.atan2(mouseY - this.getY() - (double) heightGun / 2, mouseX - this.getX() - (double) widthGun / 2);
 
     }
 
