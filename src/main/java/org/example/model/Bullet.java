@@ -3,7 +3,7 @@ package org.example.model;
 public final class Bullet extends GameObject {
 
     private static final int SPEED = 7;
-    private double angle;
+    private final double angle;
 
     public Bullet(int x, int y, double angle, int widthBullet, int heightBullet) {
         this.setX(x - widthBullet);

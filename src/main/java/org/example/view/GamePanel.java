@@ -1,6 +1,7 @@
 package org.example.view;
 
 
+import org.example.config.GameConfig;
 import org.example.dto.*;
 
 import javax.imageio.ImageIO;
@@ -17,20 +18,28 @@ import java.util.List;
 public class GamePanel extends JPanel {
     private Image backgroundImage;
     private GameInfo gameInfo;
-    private static final int gameWidth = 1200;
-    private static final int gameHeight = 800;
-    private static final int bulletWidth = 32;
-    private static final int bulletHeight = 32;
-    private static final int paratrooperWidth = 72;
-    private static final int paratrooperHeight = 90;
-    private static final int helicopterWidth = 200;
-    private static final int helicopterHeight = 95;
+    private static int gameWidth;
+    private static int gameHeight;
+    private static int bulletWidth;
+    private static int bulletHeight;
+    private static int paratrooperWidth;
+    private static int paratrooperHeight;
+    private static int helicopterWidth;
+    private static int helicopterHeight;
 
     private final List<Integer> indicesBullet;
     private final List<Integer> indicesParatroopers;
     private final List<Integer> indicesHelicopters;
 
-    public GamePanel() {
+    public GamePanel(GameConfig gameConfig) {
+        gameWidth = gameConfig.getGameWidth();
+        gameHeight = gameConfig.getGameHeight();
+        bulletWidth = gameConfig.getBulletWidth();
+        bulletHeight = gameConfig.getBulletHeight();
+        paratrooperWidth = gameConfig.getParatrooperWidth();
+        paratrooperHeight = gameConfig.getParatrooperHeight();
+        helicopterWidth = gameConfig.getHelicopterWidth();
+        helicopterHeight = gameConfig.getHelicopterHeight();
         indicesBullet = new ArrayList<>();
         indicesParatroopers = new ArrayList<>();
         indicesHelicopters = new ArrayList<>();
@@ -93,7 +102,7 @@ public class GamePanel extends JPanel {
         try {
             BufferedImage imageGun = ImageIO.read(new File("src/main/resources/gunbase.png"));
             centerX += imageGun.getWidth() / 2;
-            centerY += imageGun.getHeight() * 1.1;
+            centerY += imageGun.getHeight() /2;
             g.drawImage(imageGun, x, y, null);
         } catch (IOException e) {
             e.printStackTrace();

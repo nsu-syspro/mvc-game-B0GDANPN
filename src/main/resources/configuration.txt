@@ -1,7 +1,7 @@
 menu 900 540
 table 600 600
 game 1200 800
-gun 77 130
+gun 77 114
 bullet 32 32
 soldier 72 72
 paratrooper 72 90
