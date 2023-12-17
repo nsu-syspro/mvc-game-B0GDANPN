@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class View {
-    private MenuFrame menuFrame;
-    private MenuPanel menuPanel;
     private GamePanel gamePanel;
     private GameFrame gameFrame;
     private final GameConfig gameConfig;
@@ -29,16 +27,16 @@ public class View {
     }
 
     public void runMenu(NewGameListener newGameListener, TableListener tableListener, ExitMenuListener exitMenuListener) {
-        menuFrame = new MenuFrame(gameConfig.getMenuWidth(),
+        MenuFrame menuFrame = new MenuFrame(gameConfig.getMenuWidth(),
                 gameConfig.getMenuHeight());
-        menuPanel = new MenuPanel(newGameListener, tableListener, exitMenuListener, gameConfig.getMenuWidth(), gameConfig.getMenuHeight());
+        MenuPanel menuPanel = new MenuPanel(newGameListener, tableListener, exitMenuListener, gameConfig.getMenuWidth(), gameConfig.getMenuHeight());
         menuFrame.add(menuPanel, BorderLayout.CENTER);
         menuFrame.setContentPane(menuPanel);
     }
 
     public void runGame() {
-        gameFrame = new GameFrame(gameConfig.getGameWidth(), gameConfig.getGameHeight());
-        gamePanel = new GamePanel();
+        gameFrame = new GameFrame(gameConfig);
+        gamePanel = new GamePanel(gameConfig);
         gamePanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {

@@ -90,7 +90,7 @@ public class Game {
     }
 
     public void createBullet() {
-        Bullet bullet = gun.generateBullet(gameConfig.getGunWidth(), gameConfig.getGunHeight(), gameConfig.getBulletWidth(), gameConfig.getBulletHeight());
+        Bullet bullet = gun.generateBullet(gameConfig.getGunWidth(), gameConfig.getGunHeight(),gameConfig.getBarrelWidth(),gameConfig.getBarrelHeight(), gameConfig.getBulletWidth(), gameConfig.getBulletHeight());
         if (bullet != null) {
             bullets.add(bullet);
         }
