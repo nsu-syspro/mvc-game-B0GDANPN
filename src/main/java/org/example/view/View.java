@@ -54,6 +54,37 @@ public class View {
     }
 
 
+    record Score(String name, int score) {}
+
+    // CR: add scores with names, add score manager
+    class ScoreManager {
+
+        // TODO: opens file
+
+        private static ScoreManager instance = null;
+
+
+        static ScoreManager instance() {
+            if (instance == null) {
+                instance = fromFile();
+            }
+            return instance;
+        }
+
+        public void addScore(String name, int score) {
+
+        }
+
+        public void saveScores() {
+
+        }
+
+        public List<Score> getScores() {
+
+        }
+
+    }
+
     public void showTable(int currentScore) {
         try {
             File file = new File("fileRES.txt");

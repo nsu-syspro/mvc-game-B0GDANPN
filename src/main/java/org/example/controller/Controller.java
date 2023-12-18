@@ -8,7 +8,7 @@ import org.example.view.*;
 
 import javax.swing.*;
 
-public class Controller implements Runnable, NewGameListener, ControllerListener, TableListener, ExitMenuListener {
+public class Controller implements Runnable, NewGameListener, ControllerListener, TableListener {
     Game game;
     View view;
     private final GameConfig gameConfig;
@@ -28,8 +28,8 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
         game = new Game(this, gameConfig);
         Timer helicopterTimer = new Timer(1300, e -> game.createHelicopter());
         helicopterTimer.start();
-        Timer parachutistTimer = new Timer(1500, e -> game.createParatrooper());
-        parachutistTimer.start();
+        Timer paratrooperTimer = new Timer(1500, e -> game.createParatrooper());
+        paratrooperTimer.start();
         Timer gameTimer = new Timer(100, e -> {
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
@@ -55,11 +55,6 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
     @Override
     public IndicesReduced getIndicesReducedObjects() {
         return view.getIndicesReducedObjects();
-    }
-
-    @Override
-    public void exitMenu() {
-        view.exitMenu();
     }
 
     @Override

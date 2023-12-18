@@ -28,6 +28,7 @@ public class Game {
         helicopters = new ArrayList<>();
     }
 
+    // CR: return boolean - end game
     public void updateGame() {
         moveObjects();
         checkEndGame();
@@ -66,7 +67,7 @@ public class Game {
         for (Paratrooper paratrooper : paratroopers) {
             if (paratrooper.getOnGround() == 1) {
                 countParatrooperOnGround++;
-                if (countParatrooperOnGround >= 5) {
+                if (countParatrooperOnGround == 5) {
                     controllerListener.endGame();
                 }
             }
@@ -90,12 +91,11 @@ public class Game {
     }
 
     public void createBullet() {
-        Bullet bullet = gun.generateBullet(gameConfig.getGunWidth(), gameConfig.getGunHeight(),gameConfig.getBarrelWidth(),gameConfig.getBarrelHeight(), gameConfig.getBulletWidth(), gameConfig.getBulletHeight());
+        Bullet bullet = gun.generateBullet(gameConfig.getGunWidth(), gameConfig.getGunHeight(),gameConfig.getBarrelHeight(), gameConfig.getBulletWidth(), gameConfig.getBulletHeight());
         if (bullet != null) {
             bullets.add(bullet);
         }
     }
-
 
     public void updateGun(int mouseX, int mouseY) {
         gun.setAngle(mouseX, mouseY, gameConfig.getGunWidth(), gameConfig.getGunHeight());

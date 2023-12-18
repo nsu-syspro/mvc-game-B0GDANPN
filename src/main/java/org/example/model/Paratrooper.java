@@ -3,7 +3,7 @@ package org.example.model;
 
 public final class Paratrooper extends GameObject {
     private final int gameHeight;
-    private final int soldatHeight;
+    private final int soldierHeight;
     private boolean onGround = false;
     private static final int SPEED = 2;
 
@@ -12,14 +12,15 @@ public final class Paratrooper extends GameObject {
 
     }
 
+    // CR: boolean
     public int getOnGround() {
         return onGround ? 1 : 0;
     }
 
 
-    public Paratrooper(int x, int paratrooperWidth, int paratrooperHeight, int soldatHeight, int gameHeight) {
+    public Paratrooper(int x, int paratrooperWidth, int paratrooperHeight, int soldierHeight, int gameHeight) {
         this.gameHeight = gameHeight;
-        this.soldatHeight = soldatHeight;
+        this.soldierHeight = soldierHeight;
         this.setX(x - paratrooperWidth / 2);
         this.setY(paratrooperHeight / 2);
     }
@@ -29,9 +30,9 @@ public final class Paratrooper extends GameObject {
         if (!onGround) {
             this.setY(this.getY() + SPEED);
         }
-        if (this.getY() >= gameHeight - 0.5 * soldatHeight) {
+        if (this.getY() >= gameHeight - 0.5 * soldierHeight) {
             this.setOnGround();
-            this.setY((int) (gameHeight - 1.5 * soldatHeight));
+            this.setY((int) (gameHeight - 1.5 * soldierHeight));
         }
     }
 

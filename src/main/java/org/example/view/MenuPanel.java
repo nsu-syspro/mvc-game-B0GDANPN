@@ -39,7 +39,7 @@ public class MenuPanel extends JPanel {
         quitButton.setVisible(true);
         newGameButton.addActionListener(e -> newGameListener.newGame());
         tableButton.addActionListener(e -> tableListener.showTable());
-        quitButton.addActionListener(e -> exitMenuListener.exitMenu());
+        quitButton.addActionListener(e -> System.exit(0));
     }
 
     @Override

@@ -160,6 +160,7 @@ public class GamePanel extends JPanel {
     }
 
     public IndicesReduced getIndicesReducedObjects() {
+        // CR: move removed objects search into the model
         ArrayList<Integer> indicesRemovedBullets = new ArrayList<>();
         ArrayList<Integer> indicesRemovedHelicopters = new ArrayList<>();
         ArrayList<Integer> indicesRemovedParatroopers = new ArrayList<>();
