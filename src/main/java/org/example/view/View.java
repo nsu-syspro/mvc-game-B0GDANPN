@@ -26,10 +26,10 @@ public class View {
         this.gameConfig = config;
     }
 
-    public void runMenu(NewGameListener newGameListener, TableListener tableListener, ExitMenuListener exitMenuListener) {
+    public void runMenu(NewGameListener newGameListener, TableListener tableListener) {
         MenuFrame menuFrame = new MenuFrame(gameConfig.getMenuWidth(),
                 gameConfig.getMenuHeight());
-        MenuPanel menuPanel = new MenuPanel(newGameListener, tableListener, exitMenuListener, gameConfig.getMenuWidth(), gameConfig.getMenuHeight());
+        MenuPanel menuPanel = new MenuPanel(newGameListener, tableListener, gameConfig.getMenuWidth(), gameConfig.getMenuHeight());
         menuFrame.add(menuPanel, BorderLayout.CENTER);
         menuFrame.setContentPane(menuPanel);
     }
@@ -124,13 +124,6 @@ public class View {
         gameFrame.dispose();
     }
 
-    public void exitMenu() {
-        System.exit(0);
-    }
-
-    public IndicesReduced getIndicesReducedObjects() {
-        return gamePanel.getIndicesReducedObjects();
-    }
 
     public void setGameInfo(GameInfo gameInfo) {
         gamePanel.setGameInfo(gameInfo);

@@ -19,7 +19,7 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
 
     public void run() {
         view = new View(this, gameConfig);
-        view.runMenu(this, this, this);
+        view.runMenu(this, this);
     }
 
     @Override
@@ -54,9 +54,8 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
         game.updateGun(mouseX, mouseY);
     }
 
-    @Override
     public IndicesReduced getIndicesReducedObjects() {
-        return view.getIndicesReducedObjects();
+        return game.getIndicesReducedObjects();
     }
 
     @Override

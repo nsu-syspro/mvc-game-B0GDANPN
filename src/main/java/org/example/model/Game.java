@@ -30,7 +30,7 @@ public class Game {
 
     public boolean updateGame() {
         moveObjects();
-        boolean isEnd=isEndGame();
+        boolean isEnd = isEndGame();
         IndicesReduced getIndicesReducedObjects = controllerListener.getIndicesReducedObjects();
         increaseScore(getIndicesReducedObjects.indicesHelicopters().size() + getIndicesReducedObjects.indicesParatroopers().size());
         List<Integer> indicesBulletsToRemove = getIndicesReducedObjects.indicesBullets();
@@ -92,7 +92,7 @@ public class Game {
     }
 
     public void createBullet() {
-        Bullet bullet = gun.generateBullet(gameConfig.getGunWidth(), gameConfig.getGunHeight(),gameConfig.getBarrelHeight(), gameConfig.getBulletWidth(), gameConfig.getBulletHeight());
+        Bullet bullet = gun.generateBullet(gameConfig.getGunWidth(), gameConfig.getGunHeight(), gameConfig.getBarrelHeight(), gameConfig.getBulletWidth(), gameConfig.getBulletHeight());
         if (bullet != null) {
             bullets.add(bullet);
         }

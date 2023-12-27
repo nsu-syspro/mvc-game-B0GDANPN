@@ -7,6 +7,5 @@ public interface ControllerListener {
     void createBullet();
 
     void updateGun(int mouseX, int mouseY);
-    IndicesReduced getIndicesReducedObjects();
     void endGame();
 }
