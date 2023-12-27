@@ -2,9 +2,10 @@ package org.example.model;
 
 import org.example.config.GameConfig;
 import org.example.dto.*;
-import org.example.view.ControllerListener;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -15,13 +16,11 @@ public class Game {
     private final List<Paratrooper> paratroopers;
     private final List<Helicopter> helicopters;
     private final Gun gun;
-    private final ControllerListener controllerListener;
     private final GameConfig gameConfig;
 
-    public Game(ControllerListener controllerListener, GameConfig gameConfig) {
+    public Game(GameConfig gameConfig) {
         this.gameConfig = gameConfig;
         score = 0;
-        this.controllerListener = controllerListener;
         gun = new Gun(gameConfig.getGameWidth() / 2, gameConfig.getGameHeight(), gameConfig.getGunWidth(), gameConfig.getGunHeight());
         bullets = new ArrayList<>();
         paratroopers = new ArrayList<>();
@@ -31,7 +30,7 @@ public class Game {
     public boolean updateGame() {
         moveObjects();
         boolean isEnd = isEndGame();
-        IndicesReduced getIndicesReducedObjects = controllerListener.getIndicesReducedObjects();
+        IndicesReduced getIndicesReducedObjects = getIndicesReducedObjects();
         increaseScore(getIndicesReducedObjects.indicesHelicopters().size() + getIndicesReducedObjects.indicesParatroopers().size());
         List<Integer> indicesBulletsToRemove = getIndicesReducedObjects.indicesBullets();
         List<Integer> indicesHelicoptersToRemove = getIndicesReducedObjects.indicesHelicopters();
@@ -108,6 +107,78 @@ public class Game {
 
     public int getScore() {
         return score;
+    }
+
+    public IndicesReduced getIndicesReducedObjects() {
+        ArrayList<Integer> indicesRemovedBullets = new ArrayList<>();
+        ArrayList<Integer> indicesRemovedHelicopters = new ArrayList<>();
+        ArrayList<Integer> indicesRemovedParatroopers = new ArrayList<>();
+        Rectangle screen = new Rectangle(0, 0, 1200, 800);//gameWidth gameHeight 1200 800
+        for (int i = 0; i < bullets.size(); i++) {
+            Bullet bullet = bullets.get(i);
+            Rectangle bulletRect = new Rectangle(bullet.getX(), bullet.getY(), 32, 32);//bulletWidth, bulletHeight
+            for (int j = 0; j < helicopters.size(); j++) {
+                Helicopter helicopter = helicopters.get(i);
+                Rectangle helicopterRect = new Rectangle(helicopter.getX(), helicopter.getY(), 200, 95);//helicopterWidth, helicopterHeight
+                if (helicopterRect.intersects(bulletRect)) {
+                    indicesRemovedBullets.add(i);
+                    indicesRemovedHelicopters.add(j);
+                }
+                for (int k = 0; k < paratroopers.size(); k++) {
+                    Paratrooper paratrooper = paratroopers.get(k);
+                    Rectangle paratrooperRect = new Rectangle(paratrooper.getX(), paratrooper.getY(), 72, 90);//paratrooperWidth, paratrooperHeight
+                    if (paratrooperRect.intersects(bulletRect)) {
+                        indicesRemovedBullets.add(i);
+                        indicesRemovedParatroopers.add(k);
+                    }
+                    if (!bulletRect.intersects(screen)) {
+                        indicesRemovedBullets.add(i);
+                    }
+                }
+            }
+        }
+        for (int j = 0; j < helicopters.size(); j++) {
+            Helicopter helicopter = helicopters.get(j);
+            Rectangle helicopterRect = new Rectangle(helicopter.getX(), helicopter.getY(), 200, 95);//helicopterWidth, helicopterHeight
+            if (!helicopterRect.intersects(screen)) {
+                indicesRemovedHelicopters.add(j);
+            }
+        }
+        for (int k = 0; k < paratroopers.size(); k++) {
+            Paratrooper paratrooper = paratroopers.get(k);
+            Rectangle paratrooperRect = new Rectangle(paratrooper.getX(), paratrooper.getY(), 72, 90);//paratrooperWidth, paratrooperHeight
+            if (!paratrooperRect.intersects(screen)) {
+                indicesRemovedParatroopers.add(k);
+            }
+        }
+        Collections.sort(indicesRemovedBullets);
+        int sizeRemovedBullets = indicesRemovedBullets.size();
+        for (int i = 1; i < sizeRemovedBullets; i++) {
+            if (indicesRemovedBullets.get(i) == indicesRemovedBullets.get(i - 1)) {
+                indicesRemovedBullets.remove(i);
+                i--;
+                sizeRemovedBullets--;
+            }
+        }
+        Collections.sort(indicesRemovedHelicopters);
+        int sizeRemovedHelicopters = indicesRemovedHelicopters.size();
+        for (int i = 1; i < sizeRemovedHelicopters; i++) {
+            if (indicesRemovedHelicopters.get(i) == indicesRemovedHelicopters.get(i - 1)) {
+                indicesRemovedHelicopters.remove(i);
+                i--;
+                sizeRemovedHelicopters--;
+            }
+        }
+        Collections.sort(indicesRemovedParatroopers);
+        int sizeRemovedParatroopers = indicesRemovedParatroopers.size();
+        for (int i = 1; i < sizeRemovedParatroopers; i++) {
+            if (indicesRemovedParatroopers.get(i) == indicesRemovedParatroopers.get(i - 1)) {
+                indicesRemovedParatroopers.remove(i);
+                i--;
+                sizeRemovedParatroopers--;
+            }
+        }
+        return new IndicesReduced(indicesRemovedBullets, indicesRemovedHelicopters, indicesRemovedParatroopers);
     }
 
     public GameInfo toGameInfo() {

@@ -53,11 +53,6 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
     public void updateGun(int mouseX, int mouseY) {
         game.updateGun(mouseX, mouseY);
     }
-
-    public IndicesReduced getIndicesReducedObjects() {
-        return game.getIndicesReducedObjects();
-    }
-
     @Override
     public void showTable() {
         if (game == null) {
