@@ -28,10 +28,9 @@ public class Game {
         helicopters = new ArrayList<>();
     }
 
-    // CR: return boolean - end game
-    public void updateGame() {
+    public boolean updateGame() {
         moveObjects();
-        checkEndGame();
+        boolean isEnd=isEndGame();
         IndicesReduced getIndicesReducedObjects = controllerListener.getIndicesReducedObjects();
         increaseScore(getIndicesReducedObjects.indicesHelicopters().size() + getIndicesReducedObjects.indicesParatroopers().size());
         List<Integer> indicesBulletsToRemove = getIndicesReducedObjects.indicesBullets();
@@ -48,6 +47,7 @@ public class Game {
             int ind = indicesParatroopersToRemove.get(i);
             paratroopers.remove(ind);
         }
+        return isEnd;
     }
 
     private void moveObjects() {
@@ -62,16 +62,17 @@ public class Game {
         }
     }
 
-    private void checkEndGame() {
+    private boolean isEndGame() {
         int countParatrooperOnGround = 0;
         for (Paratrooper paratrooper : paratroopers) {
-            if (paratrooper.getOnGround() == 1) {
+            if (paratrooper.getOnGround()) {
                 countParatrooperOnGround++;
                 if (countParatrooperOnGround == 5) {
-                    controllerListener.endGame();
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public void createParatrooper() {

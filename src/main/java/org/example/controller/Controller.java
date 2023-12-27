@@ -33,7 +33,9 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
         Timer gameTimer = new Timer(100, e -> {
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
-            game.updateGame();
+            if (game.updateGame()){
+                endGame();
+            }
         });
         gameTimer.start();
     }

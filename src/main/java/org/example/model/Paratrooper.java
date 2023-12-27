@@ -11,10 +11,8 @@ public final class Paratrooper extends GameObject {
         this.onGround = true;
 
     }
-
-    // CR: boolean
-    public int getOnGround() {
-        return onGround ? 1 : 0;
+    public boolean getOnGround() {
+        return onGround;
     }
 
 
