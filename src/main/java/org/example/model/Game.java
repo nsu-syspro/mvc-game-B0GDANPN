@@ -113,20 +113,20 @@ public class Game {
         ArrayList<Integer> indicesRemovedBullets = new ArrayList<>();
         ArrayList<Integer> indicesRemovedHelicopters = new ArrayList<>();
         ArrayList<Integer> indicesRemovedParatroopers = new ArrayList<>();
-        Rectangle screen = new Rectangle(0, 0, 1200, 800);//gameWidth gameHeight 1200 800
+        Rectangle screen = new Rectangle(0, 0, config.game().width(), config.game().height());
         for (int i = 0; i < bullets.size(); i++) {
             Bullet bullet = bullets.get(i);
-            Rectangle bulletRect = new Rectangle(bullet.getX(), bullet.getY(), 32, 32);//bulletWidth, bulletHeight
+            Rectangle bulletRect = new Rectangle(bullet.getX(), bullet.getY(), config.bullet().width(), config.bullet().height());
             for (int j = 0; j < helicopters.size(); j++) {
                 Helicopter helicopter = helicopters.get(j);
-                Rectangle helicopterRect = new Rectangle(helicopter.getX(), helicopter.getY(), 200, 95);//helicopterWidth, helicopterHeight
+                Rectangle helicopterRect = new Rectangle(helicopter.getX(), helicopter.getY(), config.helicopter().width(), config.helicopter().height());
                 if (helicopterRect.intersects(bulletRect)) {
                     indicesRemovedBullets.add(i);
                     indicesRemovedHelicopters.add(j);
                 }
                 for (int k = 0; k < paratroopers.size(); k++) {
                     Paratrooper paratrooper = paratroopers.get(k);
-                    Rectangle paratrooperRect = new Rectangle(paratrooper.getX(), paratrooper.getY(), 72, 90);//paratrooperWidth, paratrooperHeight
+                    Rectangle paratrooperRect = new Rectangle(paratrooper.getX(), paratrooper.getY(), config.paratrooper().width(), config.paratrooper().height());
                     if (paratrooperRect.intersects(bulletRect)) {
                         indicesRemovedBullets.add(i);
                         indicesRemovedParatroopers.add(k);
@@ -139,14 +139,14 @@ public class Game {
         }
         for (int j = 0; j < helicopters.size(); j++) {
             Helicopter helicopter = helicopters.get(j);
-            Rectangle helicopterRect = new Rectangle(helicopter.getX(), helicopter.getY(), 200, 95);//helicopterWidth, helicopterHeight
+            Rectangle helicopterRect = new Rectangle(helicopter.getX(), helicopter.getY(), config.helicopter().width(), config.helicopter().height());
             if (!helicopterRect.intersects(screen)) {
                 indicesRemovedHelicopters.add(j);
             }
         }
         for (int k = 0; k < paratroopers.size(); k++) {
             Paratrooper paratrooper = paratroopers.get(k);
-            Rectangle paratrooperRect = new Rectangle(paratrooper.getX(), paratrooper.getY(), 72, 90);//paratrooperWidth, paratrooperHeight
+            Rectangle paratrooperRect = new Rectangle(paratrooper.getX(), paratrooper.getY(), config.paratrooper().width(), config.paratrooper().height());//paratrooperWidth, paratrooperHeight
             if (!paratrooperRect.intersects(screen)) {
                 indicesRemovedParatroopers.add(k);
             }
