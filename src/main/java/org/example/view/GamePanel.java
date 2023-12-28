@@ -1,7 +1,6 @@
 package org.example.view;
 
 
-import org.example.config.GameConfig;
 import org.example.dto.*;
 
 import javax.imageio.ImageIO;
@@ -15,24 +14,8 @@ import java.io.IOException;
 public class GamePanel extends JPanel {
     private Image backgroundImage;
     private GameInfo gameInfo;
-    private static int gameWidth;
-    private static int gameHeight;
-    private static int bulletWidth;
-    private static int bulletHeight;
-    private static int paratrooperWidth;
-    private static int paratrooperHeight;
-    private static int helicopterWidth;
-    private static int helicopterHeight;
 
-    public GamePanel(GameConfig gameConfig) {
-        gameWidth = gameConfig.getGameWidth();
-        gameHeight = gameConfig.getGameHeight();
-        bulletWidth = gameConfig.getBulletWidth();
-        bulletHeight = gameConfig.getBulletHeight();
-        paratrooperWidth = gameConfig.getParatrooperWidth();
-        paratrooperHeight = gameConfig.getParatrooperHeight();
-        helicopterWidth = gameConfig.getHelicopterWidth();
-        helicopterHeight = gameConfig.getHelicopterHeight();
+    public GamePanel() {
         try {
             backgroundImage = ImageIO.read(new File("src/main/resources/gamebackground.png"));
         } catch (IOException e) {

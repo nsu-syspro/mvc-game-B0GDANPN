@@ -1,8 +1,7 @@
 package org.example.view;
 
-import org.example.config.GameConfig;
+import org.example.config.Config;
 import org.example.dto.GameInfo;
-import org.example.dto.IndicesReduced;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -16,27 +15,24 @@ import java.util.Scanner;
 public class View {
     private GamePanel gamePanel;
     private GameFrame gameFrame;
-    private final GameConfig gameConfig;
+    private final Config config;
     private final ControllerListener controllerListener;
 
-    private static int SCALING_FACTOR = 10;//Хз зачем
-
-    public View(ControllerListener controllerListener, GameConfig config) {
+    public View(ControllerListener controllerListener, Config config) {
         this.controllerListener = controllerListener;
-        this.gameConfig = config;
+        this.config = config;
     }
 
     public void runMenu(NewGameListener newGameListener, TableListener tableListener) {
-        MenuFrame menuFrame = new MenuFrame(gameConfig.getMenuWidth(),
-                gameConfig.getMenuHeight());
-        MenuPanel menuPanel = new MenuPanel(newGameListener, tableListener, gameConfig.getMenuWidth(), gameConfig.getMenuHeight());
+        MenuFrame menuFrame = new MenuFrame(config.menu().width(), config.menu().height());
+        MenuPanel menuPanel = new MenuPanel(newGameListener, tableListener, config.menu().width(), config.menu().height());
         menuFrame.add(menuPanel, BorderLayout.CENTER);
         menuFrame.setContentPane(menuPanel);
     }
 
     public void runGame() {
-        gameFrame = new GameFrame(gameConfig);
-        gamePanel = new GamePanel(gameConfig);
+        gameFrame = new GameFrame(config);
+        gamePanel = new GamePanel();
         gamePanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -54,10 +50,11 @@ public class View {
     }
 
 
-    record Score(String name, int score) {}
+    record Score(String name, int score) {
+    }
 
     // CR: add scores with names, add score manager
-    class ScoreManager {
+    /*class ScoreManager {
 
         // TODO: opens file
 
@@ -83,7 +80,7 @@ public class View {
 
         }
 
-    }
+    }*/
 
     public void showTable(int currentScore) {
         try {

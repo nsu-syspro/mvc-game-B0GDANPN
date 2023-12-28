@@ -1,6 +1,6 @@
 package org.example.model;
 
-import org.example.config.GameConfig;
+import org.example.config.Config;
 import org.example.dto.*;
 
 import java.awt.*;
@@ -16,12 +16,12 @@ public class Game {
     private final List<Paratrooper> paratroopers;
     private final List<Helicopter> helicopters;
     private final Gun gun;
-    private final GameConfig gameConfig;
+    private final Config config;
 
-    public Game(GameConfig gameConfig) {
-        this.gameConfig = gameConfig;
+    public Game(Config config) {
+        this.config = config;
         score = 0;
-        gun = new Gun(gameConfig.getGameWidth() / 2, gameConfig.getGameHeight(), gameConfig.getGunWidth(), gameConfig.getGunHeight());
+        gun = new Gun(config.game().width() / 2, config.game().height(), config.gun().width(), config.gun().height());
         bullets = new ArrayList<>();
         paratroopers = new ArrayList<>();
         helicopters = new ArrayList<>();
@@ -79,26 +79,26 @@ public class Game {
         Random random = new Random();
         for (int i = 1; i < size; i++) {
             if (random.nextInt(100) < 15) {
-                Paratrooper paratrooper = new Paratrooper(helicopters.get(i).getX(), gameConfig.getParatrooperWidth(), gameConfig.getParatrooperHeight(), gameConfig.getSoldierHeight(), gameConfig.getGameHeight());
+                Paratrooper paratrooper = new Paratrooper(helicopters.get(i).getX(), config.paratrooper().width(), config.paratrooper().height(), config.soldier().height(), config.game().height());
                 paratroopers.add(paratrooper);
             }
         }
     }
 
     public void createHelicopter() {
-        Helicopter helicopter = new Helicopter(gameConfig.getGameWidth());
+        Helicopter helicopter = new Helicopter(config.game().width());
         helicopters.add(helicopter);
     }
 
     public void createBullet() {
-        Bullet bullet = gun.generateBullet(gameConfig.getGunWidth(), gameConfig.getGunHeight(), gameConfig.getBarrelHeight(), gameConfig.getBulletWidth(), gameConfig.getBulletHeight());
+        Bullet bullet = gun.generateBullet(config.gun().width(), config.gun().height(), config.barrel().height(), config.bullet().width(), config.bullet().height());
         if (bullet != null) {
             bullets.add(bullet);
         }
     }
 
     public void updateGun(int mouseX, int mouseY) {
-        gun.setAngle(mouseX, mouseY, gameConfig.getGunWidth(), gameConfig.getGunHeight());
+        gun.setAngle(mouseX, mouseY, config.gun().width(), config.gun().height());
     }
 
     public void increaseScore(int difference) {
@@ -118,7 +118,7 @@ public class Game {
             Bullet bullet = bullets.get(i);
             Rectangle bulletRect = new Rectangle(bullet.getX(), bullet.getY(), 32, 32);//bulletWidth, bulletHeight
             for (int j = 0; j < helicopters.size(); j++) {
-                Helicopter helicopter = helicopters.get(i);
+                Helicopter helicopter = helicopters.get(j);
                 Rectangle helicopterRect = new Rectangle(helicopter.getX(), helicopter.getY(), 200, 95);//helicopterWidth, helicopterHeight
                 if (helicopterRect.intersects(bulletRect)) {
                     indicesRemovedBullets.add(i);

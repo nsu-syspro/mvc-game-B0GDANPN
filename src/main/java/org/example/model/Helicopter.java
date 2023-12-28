@@ -5,7 +5,6 @@ import java.util.Random;
 public final class Helicopter extends GameObject {
     private static final int SPEED = 4;
     private int x;
-    // CR: enum
     private final Direction direction;
 
     private static final Random RANDOM = new Random();
