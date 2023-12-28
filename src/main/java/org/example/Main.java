@@ -1,10 +1,10 @@
 package org.example;
 import org.example.controller.Controller;
-import org.example.config.GameConfig;
+import org.example.config.Config;
 
 public class Main {
     public static void main(String[] args) {
-        GameConfig gameConfig = GameConfig.fromFile();
+        Config gameConfig = Config.create();
         Controller controller = new Controller(gameConfig);
         controller.run();
     }

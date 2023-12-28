@@ -11,10 +11,8 @@ public final class Paratrooper extends GameObject {
         this.onGround = true;
 
     }
-
-    // CR: boolean
-    public int getOnGround() {
-        return onGround ? 1 : 0;
+    public boolean getOnGround() {
+        return onGround;
     }
 
 
@@ -30,7 +28,7 @@ public final class Paratrooper extends GameObject {
         if (!onGround) {
             this.setY(this.getY() + SPEED);
         }
-        if (this.getY() >= gameHeight - 0.5 * soldierHeight) {
+        if (this.getY() >= gameHeight - 1.5*soldierHeight) {
             this.setOnGround();
             this.setY((int) (gameHeight - 1.5 * soldierHeight));
         }

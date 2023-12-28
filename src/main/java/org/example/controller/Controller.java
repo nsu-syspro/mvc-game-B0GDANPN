@@ -1,8 +1,7 @@
 package org.example.controller;
 
-import org.example.config.GameConfig;
+import org.example.config.Config;
 import org.example.dto.GameInfo;
-import org.example.dto.IndicesReduced;
 import org.example.model.Game;
 import org.example.view.*;
 
@@ -11,21 +10,21 @@ import javax.swing.*;
 public class Controller implements Runnable, NewGameListener, ControllerListener, TableListener {
     Game game;
     View view;
-    private final GameConfig gameConfig;
+    private final Config config;
 
-    public Controller(GameConfig gameConfig) {
-        this.gameConfig = gameConfig;
+    public Controller(Config config) {
+        this.config = config;
     }
 
     public void run() {
-        view = new View(this, gameConfig);
-        view.runMenu(this, this, this);
+        view = new View(this, config);
+        view.runMenu(this, this);
     }
 
     @Override
     public void newGame() {
         view.runGame();
-        game = new Game(this, gameConfig);
+        game = new Game(config);
         Timer helicopterTimer = new Timer(1300, e -> game.createHelicopter());
         helicopterTimer.start();
         Timer paratrooperTimer = new Timer(1500, e -> game.createParatrooper());
@@ -33,7 +32,9 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
         Timer gameTimer = new Timer(100, e -> {
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
-            game.updateGame();
+            if (game.updateGame()){
+                endGame();
+            }
         });
         gameTimer.start();
     }
@@ -51,12 +52,6 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
     public void updateGun(int mouseX, int mouseY) {
         game.updateGun(mouseX, mouseY);
     }
-
-    @Override
-    public IndicesReduced getIndicesReducedObjects() {
-        return view.getIndicesReducedObjects();
-    }
-
     @Override
     public void showTable() {
         if (game == null) {
