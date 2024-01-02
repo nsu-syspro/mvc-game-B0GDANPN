@@ -18,7 +18,7 @@ public class Game {
     private final Config config;
     private final ScoreManager scoreManager;
 
-    public Game(String name,Config config,ScoreManager scoreManager) {
+    public Game(String name, Config config, ScoreManager scoreManager) {
         this.config = config;
         this.scoreManager = scoreManager;
         scoreManager.clearCurrent();

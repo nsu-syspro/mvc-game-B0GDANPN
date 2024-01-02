@@ -9,15 +9,22 @@ public class TableFrame extends JFrame {
     public TableFrame(int WIDTH, int HEIGHT, String fileName) {
         setTitle("Table of results");
         setSize(WIDTH, HEIGHT);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JTextArea textArea = new JTextArea();
         textArea.setEditable(false);
-
+        File file=new File(fileName);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         try {
             Scanner scanner = new Scanner(new File(fileName));
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                textArea.append(line);
+                textArea.append(line+'\n');
             }
             scanner.close();
         } catch (IOException e) {
@@ -26,6 +33,7 @@ public class TableFrame extends JFrame {
 
         // Create a JScrollPane and add the JTextArea to it
         JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         // Add the JScrollPane to the JFrame
         getContentPane().add(scrollPane);
@@ -33,8 +41,8 @@ public class TableFrame extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(null);
         setVisible(true);
     }
+
 }
 

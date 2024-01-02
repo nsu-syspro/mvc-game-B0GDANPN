@@ -36,11 +36,14 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
         helicopterTimer.start();
         Timer paratrooperTimer = new Timer(1500, e -> game.createParatrooper());
         paratrooperTimer.start();
+        final boolean[] gameEnded = {false};
         Timer gameTimer = new Timer(100, e -> {
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
-            if (game.updateGame()) {
+            if (!gameEnded[0] && game.updateGame()) {
+                gameEnded[0] = true;
                 endGame();
+
             }
         });
         gameTimer.start();
