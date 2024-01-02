@@ -3,7 +3,11 @@ package org.example.controller;
 import org.example.config.Config;
 import org.example.dto.GameInfo;
 import org.example.model.Game;
-import org.example.view.*;
+import org.example.model.ScoreManager;
+import org.example.view.ControllerListener;
+import org.example.view.NewGameListener;
+import org.example.view.TableListener;
+import org.example.view.View;
 
 import javax.swing.*;
 
@@ -11,9 +15,11 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
     Game game;
     View view;
     private final Config config;
+    private final ScoreManager scoreManager;
 
     public Controller(Config config) {
         this.config = config;
+        this.scoreManager = ScoreManager.getInstance(config.resultName());
     }
 
     public void run() {
@@ -24,7 +30,8 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
     @Override
     public void newGame() {
         view.runGame();
-        game = new Game(config);
+        String name = view.getUserName();
+        game = new Game(name, config, scoreManager);
         Timer helicopterTimer = new Timer(1300, e -> game.createHelicopter());
         helicopterTimer.start();
         Timer paratrooperTimer = new Timer(1500, e -> game.createParatrooper());
@@ -32,7 +39,7 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
         Timer gameTimer = new Timer(100, e -> {
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
-            if (game.updateGame()){
+            if (game.updateGame()) {
                 endGame();
             }
         });
@@ -40,6 +47,7 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
     }
 
     public void endGame() {
+        scoreManager.saveScore();
         view.endGame();
     }
 
@@ -52,12 +60,9 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
     public void updateGun(int mouseX, int mouseY) {
         game.updateGun(mouseX, mouseY);
     }
+
     @Override
     public void showTable() {
-        if (game == null) {
-            view.showTable(0);
-        } else {
-            view.showTable(game.getScore());
-        }
+        view.showTable();
     }
 }

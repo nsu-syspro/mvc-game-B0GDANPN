@@ -10,17 +10,19 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
-    private int score;
 
     private final List<Bullet> bullets;
     private final List<Paratrooper> paratroopers;
     private final List<Helicopter> helicopters;
     private final Gun gun;
     private final Config config;
+    private final ScoreManager scoreManager;
 
-    public Game(Config config) {
+    public Game(String name,Config config,ScoreManager scoreManager) {
         this.config = config;
-        score = 0;
+        this.scoreManager = scoreManager;
+        scoreManager.clearCurrent();
+        scoreManager.setCurrentName(name);
         gun = new Gun(config.game().width() / 2, config.game().height(), config.gun().width(), config.gun().height());
         bullets = new ArrayList<>();
         paratroopers = new ArrayList<>();
@@ -31,7 +33,7 @@ public class Game {
         moveObjects();
         boolean isEnd = isEndGame();
         IndicesReduced getIndicesReducedObjects = getIndicesReducedObjects();
-        increaseScore(getIndicesReducedObjects.indicesHelicopters().size() + getIndicesReducedObjects.indicesParatroopers().size());
+        scoreManager.addScore(getIndicesReducedObjects.indicesHelicopters().size() + getIndicesReducedObjects.indicesParatroopers().size());
         List<Integer> indicesBulletsToRemove = getIndicesReducedObjects.indicesBullets();
         List<Integer> indicesHelicoptersToRemove = getIndicesReducedObjects.indicesHelicopters();
         List<Integer> indicesParatroopersToRemove = getIndicesReducedObjects.indicesParatroopers();
@@ -101,12 +103,8 @@ public class Game {
         gun.setAngle(mouseX, mouseY, config.gun().width(), config.gun().height());
     }
 
-    public void increaseScore(int difference) {
-        score += difference;
-    }
-
-    public int getScore() {
-        return score;
+    public List<Score> getScoresAndNames() {
+        return scoreManager.getScoresAndNames();
     }
 
     public IndicesReduced getIndicesReducedObjects() {
