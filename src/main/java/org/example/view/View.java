@@ -47,8 +47,7 @@ public class View {
     }
 
     public String getUserName() {
-        String input = JOptionPane.showInputDialog("Enter a name player:");
-        return input;
+        return JOptionPane.showInputDialog("Enter a name player:");
     }
 
     public void showTable() {
