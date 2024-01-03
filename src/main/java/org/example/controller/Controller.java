@@ -12,8 +12,8 @@ import org.example.view.View;
 import javax.swing.*;
 
 public class Controller implements Runnable, NewGameListener, ControllerListener, TableListener {
-    Game game;
-    View view;
+    private Game game;
+    private View view;
     private final Config config;
     private final ScoreManager scoreManager;
 
@@ -41,6 +41,7 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
             if (!gameEnded[0] && game.updateGame()) {
+                // CR: maybe we can just stop timer if the game has ended?
                 gameEnded[0] = true;
                 endGame();
 

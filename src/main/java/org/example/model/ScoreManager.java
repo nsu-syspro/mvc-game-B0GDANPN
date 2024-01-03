@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-// CR: add scores with names, add score manager
-
+// CR: move from model to different package (e.g. utils)
 public class ScoreManager {
     private final String fileName;
     private int currentScore;
@@ -53,6 +52,7 @@ public class ScoreManager {
         }
     }
 
+    // CR: unused?
     public List<Score> getScoresAndNames() {
         ArrayList<Score> scores = new ArrayList<>();
         try {

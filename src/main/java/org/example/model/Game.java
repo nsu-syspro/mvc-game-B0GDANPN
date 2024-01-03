@@ -18,6 +18,60 @@ public class Game {
     private final Config config;
     private final ScoreManager scoreManager;
 
+    /*
+    CR:
+    do not pass score manager here, you should have fields 'name' and 'score'
+    in Game class that can be accessed by controller
+
+    When the game has ended, you do something like that in controller:
+    if (game.updateGame()) {
+      int score = game.getScore();
+      String name = game.getName();
+      ScoreManager.getInstance().addScore(name, score);
+      view.endGame(name, score);
+    }
+
+    after that, you store your current result into score manager (ScoreManager.getInstance().addScore) and show current result to user (view.endGame)
+
+    Inside ScoreManager you should have the following structure:
+
+    class ScoreManager {
+      private final List<Score> scores;
+      // we store top10 scores
+      private static int MAX_SCORES = 10;
+      private static final String SCORES_FILE = "....";
+
+      private static ScoreManager INSTANCE = null;
+
+      private ScoreManager(List<Score> scores) {
+      this.scores = scores;
+      }
+
+      // inits INSTANCE field with data from scores file
+      public ScoreManager getInstance() {
+        ...
+      }
+
+      // returns false if we did not save score into our list
+      public boolean addScore() {
+        ...
+      }
+
+      // writes all scores into file
+      public void saveScores() {
+        ...
+      }
+
+      // returns current top scores
+      public List<Score> getScores() {
+        ...
+      }
+    }
+
+    Additional notes:
+    - saveScores should be called only once in all program, when user closes the game
+    - do not forget to support 'show high scores' logic in view
+     */
     public Game(String name, Config config, ScoreManager scoreManager) {
         this.config = config;
         this.scoreManager = scoreManager;
@@ -103,10 +157,33 @@ public class Game {
         gun.setAngle(mouseX, mouseY, config.gun().width(), config.gun().height());
     }
 
-    public List<Score> getScoresAndNames() {
-        return scoreManager.getScoresAndNames();
-    }
+    /*
+      CR:very complicated and suboptimal, let's improve (yoy need to write intersects method yourself):
 
+            List<Bullet> bulletsToRemove = new ArrayList<>();
+        List<Paratrooper> paratroopersToRemove = new ArrayList<>();
+        List<Helicopter> helicoptersToRemove = new ArrayList<>();
+        for (Bullet bullet : bullets) {
+            for (Paratrooper paratrooper: paratroopers) {
+                if (intersects(bullet, paratrooper)) {
+                    bulletsToRemove.add(bullet);
+                    paratroopersToRemove.add(paratrooper);
+                }
+            }
+            for (Helicopter helicopter : helicopters) {
+                if (intersects(bullet, helicopter)) {
+                    bulletsToRemove.add(bullet);
+                    helicoptersToRemove.add(helicopter);
+                }
+            }
+        }
+        bullets.removeAll(bulletsToRemove);
+        paratroopers.removeAll(paratroopersToRemove);
+        helicopters.removeAll(helicoptersToRemove);
+
+
+        Also please rename method to smth like 'removeObjects'
+     */
     public IndicesReduced getIndicesReducedObjects() {
         ArrayList<Integer> indicesRemovedBullets = new ArrayList<>();
         ArrayList<Integer> indicesRemovedHelicopters = new ArrayList<>();
