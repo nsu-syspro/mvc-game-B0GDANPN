@@ -2,6 +2,7 @@ package org.example.model;
 
 import org.example.config.Config;
 import org.example.dto.*;
+import org.example.utils.ScoreManager;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -156,6 +157,11 @@ public class Game {
     public void updateGun(int mouseX, int mouseY) {
         gun.setAngle(mouseX, mouseY, config.gun().width(), config.gun().height());
     }
+    private boolean intersects(int x1, int y1, int width1, int height1, int x2, int y2, int width2, int height2) {
+        Rectangle rectangle1 = new Rectangle(x1, y1, width1, height1);
+        Rectangle rectangle2 = new Rectangle(x2, y2, width2, height2);
+        return rectangle1.intersects(rectangle2);
+    }
 
     /*
       CR:very complicated and suboptimal, let's improve (yoy need to write intersects method yourself):
@@ -199,18 +205,19 @@ public class Game {
                     indicesRemovedBullets.add(i);
                     indicesRemovedHelicopters.add(j);
                 }
-                for (int k = 0; k < paratroopers.size(); k++) {
-                    Paratrooper paratrooper = paratroopers.get(k);
-                    Rectangle paratrooperRect = new Rectangle(paratrooper.getX(), paratrooper.getY(), config.paratrooper().width(), config.paratrooper().height());
-                    if (paratrooperRect.intersects(bulletRect)) {
-                        indicesRemovedBullets.add(i);
-                        indicesRemovedParatroopers.add(k);
-                    }
-                    if (!bulletRect.intersects(screen)) {
-                        indicesRemovedBullets.add(i);
-                    }
-                }
             }
+            for (int k = 0; k < paratroopers.size(); k++) {
+                Paratrooper paratrooper = paratroopers.get(k);
+                Rectangle paratrooperRect = new Rectangle(paratrooper.getX(), paratrooper.getY(), config.paratrooper().width(), config.paratrooper().height());
+                if (paratrooperRect.intersects(bulletRect)) {
+                    indicesRemovedBullets.add(i);
+                    indicesRemovedParatroopers.add(k);
+                }}
+
+            if (!bulletRect.intersects(screen)) {
+                indicesRemovedBullets.add(i);
+            }
+
         }
         for (int j = 0; j < helicopters.size(); j++) {
             Helicopter helicopter = helicopters.get(j);

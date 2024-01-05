@@ -1,16 +1,8 @@
-package org.example.model;
+package org.example.utils;
 
-import org.example.dto.Score;
-
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
-
-// CR: move from model to different package (e.g. utils)
 public class ScoreManager {
     private final String fileName;
     private int currentScore;
@@ -48,28 +40,7 @@ public class ScoreManager {
         try (FileWriter file = new FileWriter(fileName, true)) {
             file.write(currentName + " " + currentScore + "\n");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
         }
-    }
-
-    // CR: unused?
-    public List<Score> getScoresAndNames() {
-        ArrayList<Score> scores = new ArrayList<>();
-        try {
-            Scanner scanner = new Scanner(new File(fileName));
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] parts = line.split(" ");
-                String name = parts[0];
-                int score = Integer.parseInt(parts[1]);
-                scores.add(new Score(name, score));
-            }
-
-            scanner.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return scores;
-
     }
 }

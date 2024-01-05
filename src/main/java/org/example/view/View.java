@@ -51,7 +51,7 @@ public class View {
     }
 
     public void showTable() {
-        TableFrame tableFrame = new TableFrame(config.table().width(), config.table().height(), config.resultName());
+        new TableFrame(config.table().width(), config.table().height(), config.resultName());
     }
 
     public void endGame() {

@@ -3,7 +3,7 @@ package org.example.controller;
 import org.example.config.Config;
 import org.example.dto.GameInfo;
 import org.example.model.Game;
-import org.example.model.ScoreManager;
+import org.example.utils.ScoreManager;
 import org.example.view.ControllerListener;
 import org.example.view.NewGameListener;
 import org.example.view.TableListener;
@@ -16,6 +16,9 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
     private View view;
     private final Config config;
     private final ScoreManager scoreManager;
+    private Timer helicopterTimer;
+    private Timer paratrooperTimer;
+    private Timer gameTimer;
 
     public Controller(Config config) {
         this.config = config;
@@ -32,22 +35,26 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
         view.runGame();
         String name = view.getUserName();
         game = new Game(name, config, scoreManager);
-        Timer helicopterTimer = new Timer(1300, e -> game.createHelicopter());
+        helicopterTimer = new Timer(1300, e -> game.createHelicopter());
         helicopterTimer.start();
-        Timer paratrooperTimer = new Timer(1500, e -> game.createParatrooper());
+        paratrooperTimer = new Timer(1500, e -> game.createParatrooper());
         paratrooperTimer.start();
-        final boolean[] gameEnded = {false};
-        Timer gameTimer = new Timer(100, e -> {
+        gameTimer = new Timer(100, e -> {
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
-            if (!gameEnded[0] && game.updateGame()) {
-                // CR: maybe we can just stop timer if the game has ended?
-                gameEnded[0] = true;
+            if (game.updateGame()) {
+                stopTimers();
                 endGame();
 
             }
         });
         gameTimer.start();
+    }
+
+    private void stopTimers() {
+        helicopterTimer.stop();
+        paratrooperTimer.stop();
+        gameTimer.stop();
     }
 
     public void endGame() {

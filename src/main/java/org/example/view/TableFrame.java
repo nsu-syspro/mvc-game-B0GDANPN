@@ -13,12 +13,11 @@ public class TableFrame extends JFrame {
         JTextArea textArea = new JTextArea();
         textArea.setEditable(false);
         File file=new File(fileName);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            System.out.println("Can`t create file of results");
+            System.exit(0);
         }
         try {
             Scanner scanner = new Scanner(new File(fileName));
@@ -28,7 +27,8 @@ public class TableFrame extends JFrame {
             }
             scanner.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Can`t open file of results");
+            System.exit(0);
         }
 
         // Create a JScrollPane and add the JTextArea to it

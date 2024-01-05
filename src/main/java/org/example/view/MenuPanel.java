@@ -8,8 +8,6 @@ import java.io.IOException;
 
 public class MenuPanel extends JPanel {
 
-    private final NewGameListener newGameListener;
-    private final TableListener tableListener;
     private Image backgroundImage;
     private static final String TABLE = "Records";
 
@@ -17,17 +15,15 @@ public class MenuPanel extends JPanel {
     private static final String EXIT = "Exit";
 
     public MenuPanel(NewGameListener newGameListener, TableListener tableListener, int width, int height) {
-        this.newGameListener = newGameListener;
-        this.tableListener = tableListener;
         this.setSize(width, height);
         try {
             backgroundImage = ImageIO.read(new File("src/main/resources/startGame.png"));
-        }
-        catch (IOException e){
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Can`t open backround menu theme");
+            System.exit(0);
         }
         JButton quitButton = new JButton(EXIT);
-        JButton tableButton= new JButton(TABLE);
+        JButton tableButton = new JButton(TABLE);
         JButton newGameButton = new JButton(NEW_GAME);
         add(quitButton);
         add(tableButton);

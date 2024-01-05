@@ -1,6 +1,6 @@
 package org.example.model;
 
-public sealed class GameObject permits Bullet, Paratrooper,Helicopter,Gun{
+public abstract sealed class GameObject permits Bullet, Paratrooper, Helicopter, Gun {
     private int x;
     private int y;
 
@@ -15,11 +15,10 @@ public sealed class GameObject permits Bullet, Paratrooper,Helicopter,Gun{
     public int getY() {
         return y;
     }
+
     public void setY(int y) {
         this.y = y;
     }
-
-    // CR: make it abstract
     public void move() {
     }
 }

@@ -19,7 +19,8 @@ public class GamePanel extends JPanel {
         try {
             backgroundImage = ImageIO.read(new File("src/main/resources/gamebackground.png"));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Can`t open game backround theme");
+            System.exit(0);
         }
     }
 
@@ -63,7 +64,8 @@ public class GamePanel extends JPanel {
             centerY += imageGun.getHeight() / 2;
             g.drawImage(imageGun, x, y, null);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Can`t open gun image");
+            System.exit(0);
         }
         try {
             BufferedImage imageBarrel = ImageIO.read(new File("src/main/resources/barrelgun.png"));
@@ -75,7 +77,8 @@ public class GamePanel extends JPanel {
             g2d.drawImage(imageBarrel, x, y, null);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Can`t open barrel gun image");
+            System.exit(0);
         }
     }
 
@@ -90,7 +93,8 @@ public class GamePanel extends JPanel {
                 g.drawImage(image, x, 0, null);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Can`t open helicopter image");
+            System.exit(0);
         }
     }
 
@@ -99,21 +103,23 @@ public class GamePanel extends JPanel {
             BufferedImage image = ImageIO.read(new File("src/main/resources/bullet.png"));
             g.drawImage(image, x, y, null);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Can`t open bullet image");
+            System.exit(0);
         }
     }
 
     private void drawParatrooper(Graphics g, int x, int y, boolean onGround) {
         try {
+            BufferedImage image;
             if (onGround) {
-                BufferedImage image = ImageIO.read(new File("src/main/resources/soldier.png"));
-                g.drawImage(image, x, y, null);
+                image = ImageIO.read(new File("src/main/resources/soldier.png"));
             } else {
-                BufferedImage image = ImageIO.read(new File("src/main/resources/paratrooper.png"));
-                g.drawImage(image, x, y, null);
+                image = ImageIO.read(new File("src/main/resources/paratrooper.png"));
             }
+            g.drawImage(image, x, y, null);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Can`t open soldier or paratrooper image");
+            System.exit(0);
         }
     }
 }
