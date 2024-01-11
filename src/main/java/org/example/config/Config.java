@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public record Config(Size menu, Size table, Size game, Size gun, Size bullet, Size soldier, Size paratrooper,
-                     Size helicopter, Size barrel, String resultName) {
+                     Size helicopter, Size barrel) {
     private static final String CONFIG_FILENAME = "src/main/resources/configuration.txt";
 
     public static Config create() {
@@ -49,7 +49,7 @@ public record Config(Size menu, Size table, Size game, Size gun, Size bullet, Si
         Size barrelSize = fileContent.get("barrel");
         if (barrelSize == null) return defaultConfig();
         if (resultName == null) return defaultConfig();
-        return new Config(menuSize, tableSize, gameSize, gunSize, bulletSize, soldierSize, paratrooperSize, helicopterSize, barrelSize, resultName);
+        return new Config(menuSize, tableSize, gameSize, gunSize, bulletSize, soldierSize, paratrooperSize, helicopterSize, barrelSize);
     }
 
     static Config defaultConfig() {
@@ -62,7 +62,6 @@ public record Config(Size menu, Size table, Size game, Size gun, Size bullet, Si
                 new Size(72, 72),
                 new Size(72, 90),
                 new Size(200, 95),
-                new Size(77, 114),
-                "result.txt");
+                new Size(77, 114));
     }
 }

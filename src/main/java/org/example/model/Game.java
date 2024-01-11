@@ -2,7 +2,6 @@ package org.example.model;
 
 import org.example.config.Config;
 import org.example.dto.*;
-import org.example.utils.ScoreManager;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,67 +15,19 @@ public class Game {
     private final List<Helicopter> helicopters;
     private final Gun gun;
     private final Config config;
-    private final ScoreManager scoreManager;
+    private final String name;
+    private int score;
 
-    /*
-    CR:
-    do not pass score manager here, you should have fields 'name' and 'score'
-    in Game class that can be accessed by controller
-
-    When the game has ended, you do something like that in controller:
-    if (game.updateGame()) {
-      int score = game.getScore();
-      String name = game.getName();
-      ScoreManager.getInstance().addScore(name, score);
-      view.endGame(name, score);
+    public String getName() {
+        return name;
     }
-
-    after that, you store your current result into score manager (ScoreManager.getInstance().addScore) and show current result to user (view.endGame)
-
-    Inside ScoreManager you should have the following structure:
-
-    class ScoreManager {
-      private final List<Score> scores;
-      // we store top10 scores
-      private static int MAX_SCORES = 10;
-      private static final String SCORES_FILE = "....";
-
-      private static ScoreManager INSTANCE = null;
-
-      private ScoreManager(List<Score> scores) {
-      this.scores = scores;
-      }
-
-      // inits INSTANCE field with data from scores file
-      public ScoreManager getInstance() {
-        ...
-      }
-
-      // returns false if we did not save score into our list
-      public boolean addScore() {
-        ...
-      }
-
-      // writes all scores into file
-      public void saveScores() {
-        ...
-      }
-
-      // returns current top scores
-      public List<Score> getScores() {
-        ...
-      }
+    public int getScore() {
+        return score;
     }
-
-    Additional notes:
-    - saveScores should be called only once in all program, when user closes the game
-    - do not forget to support 'show high scores' logic in view
-     */
-    public Game(String name, Config config, ScoreManager scoreManager) {
+    public Game(String name, Config config) {
+        this.name = name;
+        this.score = 0;
         this.config = config;
-        this.scoreManager = scoreManager;
-        scoreManager.clearCurrent();
-        scoreManager.setCurrentName(name);
         gun = new Gun(config.game().width() / 2, config.game().height(), config.gun().width(), config.gun().height());
         bullets = new ArrayList<>();
         paratroopers = new ArrayList<>();
@@ -118,7 +69,7 @@ public class Game {
             }
         }
         for (Paratrooper paratrooper : paratroopers) {
-            if (intersects(paratrooper.getX(), paratrooper.getY(), config.paratrooper().width(), config.paratrooper().height(),
+            if (!intersects(paratrooper.getX(), paratrooper.getY(), config.paratrooper().width(), config.paratrooper().height(),
                     0, 0, config.game().width(), config.game().height())) {
                 paratroopersToRemove.add(paratrooper);
             }
@@ -130,8 +81,7 @@ public class Game {
         helicopters.removeAll(helicoptersToRemove);
         int newHelicoptersSize = helicopters.size();
         int newParatroopersSize = paratroopers.size();
-        scoreManager.addScore(oldHelicoptersSize - newHelicoptersSize);
-        scoreManager.addScore(oldParatroopersSize - newParatroopersSize);
+        this.score += oldHelicoptersSize - newHelicoptersSize + oldParatroopersSize - newParatroopersSize;
         return isEnd;
     }
 

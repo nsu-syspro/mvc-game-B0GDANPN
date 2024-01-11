@@ -7,4 +7,3 @@ soldier 72 72
 paratrooper 72 90
 helicopter 200 95
 barrel 77 114
-result.txt

@@ -1,34 +1,21 @@
 package org.example.view;
 
+import org.example.utils.Score;
+
 import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
+import java.util.Comparator;
+import java.util.List;
 
 public class TableFrame extends JFrame {
-    public TableFrame(int WIDTH, int HEIGHT, String fileName) {
+    public TableFrame(int WIDTH, int HEIGHT, List<Score> scores) {
         setTitle("Table of results");
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JTextArea textArea = new JTextArea();
         textArea.setEditable(false);
-        File file=new File(fileName);
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            System.out.println("Can`t create file of results");
-            System.exit(0);
-        }
-        try {
-            Scanner scanner = new Scanner(new File(fileName));
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                textArea.append(line+'\n');
-            }
-            scanner.close();
-        } catch (IOException e) {
-            System.out.println("Can`t open file of results");
-            System.exit(0);
+        scores.sort(Comparator.comparingInt(Score::score).reversed());
+        for (Score score : scores) {
+            textArea.append(score.name() + " " + score.score() + "\n");
         }
 
         // Create a JScrollPane and add the JTextArea to it

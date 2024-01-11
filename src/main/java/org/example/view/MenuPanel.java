@@ -14,7 +14,7 @@ public class MenuPanel extends JPanel {
     private static final String NEW_GAME = "New game";
     private static final String EXIT = "Exit";
 
-    public MenuPanel(NewGameListener newGameListener, TableListener tableListener, int width, int height) {
+    public MenuPanel(NewGameListener newGameListener, TableListener tableListener, ExitMenuListener exitMenuListener, int width, int height) {
         this.setSize(width, height);
         try {
             backgroundImage = ImageIO.read(new File("src/main/resources/startGame.png"));
@@ -33,7 +33,10 @@ public class MenuPanel extends JPanel {
         quitButton.setVisible(true);
         newGameButton.addActionListener(e -> newGameListener.newGame());
         tableButton.addActionListener(e -> tableListener.showTable());
-        quitButton.addActionListener(e -> System.exit(0));
+        quitButton.addActionListener(e -> {
+            exitMenuListener.saveScores();
+            System.exit(0);
+        });
     }
 
     @Override
