@@ -22,8 +22,7 @@ public class ScoreManager {
                 String[] line = scanner.nextLine().split(" ");
                 scores.add(new Score(line[0], Integer.parseInt(line[1])));
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
@@ -66,6 +65,7 @@ public class ScoreManager {
             System.exit(0);
         }
     }
+
     public List<Score> getScores() {
         return scores;
     }

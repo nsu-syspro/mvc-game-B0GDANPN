@@ -27,16 +27,16 @@ public final class Gun extends GameObject {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShootTime > SHOOT_DELAY) {
             lastShootTime = currentTime;
-            double centerGunX = this.getX() + 0.5*widthGun;
-            double centerGunY = this.getY() + 0.5*heightGun;
-            double dx=0;
-            double dy=-heightBarrel;
-            double angle = this.getAngle()+3.14/2;
+            double centerGunX = this.getX() + 0.5 * widthGun;
+            double centerGunY = this.getY() + 0.5 * heightGun;
+            double dx = 0;
+            double dy = -heightBarrel;
+            double angle = this.getAngle() + 3.14 / 2;
             double new_dx = dx * cos(angle) - dy * sin(angle);
             double new_dy = dx * sin(angle) + dy * cos(angle);
             double new_x = centerGunX + new_dx;
             double new_y = centerGunY + new_dy;
-            return new Bullet((int) new_x, (int)new_y, this.getAngle(), widthBullet, heightBullet);
+            return new Bullet((int) new_x, (int) new_y, this.getAngle(), widthBullet, heightBullet);
         }
         return null;
     }

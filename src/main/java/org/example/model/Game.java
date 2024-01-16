@@ -21,9 +21,11 @@ public class Game {
     public String getName() {
         return name;
     }
+
     public int getScore() {
         return score;
     }
+
     public Game(String name, Config config) {
         this.name = name;
         this.score = 0;
@@ -110,27 +112,34 @@ public class Game {
         return false;
     }
 
-    public void createParatrooper() {
+    public boolean createParatrooper() {
+        boolean isCreated = false;
         int size = helicopters.size();
         Random random = new Random();
-        for (int i = 1; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             if (random.nextInt(100) < 15) {
                 Paratrooper paratrooper = new Paratrooper(helicopters.get(i).getX(), config.paratrooper().width(), config.paratrooper().height(), config.soldier().height(), config.game().height());
                 paratroopers.add(paratrooper);
+                isCreated = true;
             }
         }
+        return isCreated;
     }
 
-    public void createHelicopter() {
+    public boolean createHelicopter() {
         Helicopter helicopter = new Helicopter(config.game().width());
         helicopters.add(helicopter);
+        return true;
     }
 
-    public void createBullet() {
+    public boolean createBullet() {
+        boolean isCreated = false;
         Bullet bullet = gun.generateBullet(config.gun().width(), config.gun().height(), config.barrel().height(), config.bullet().width(), config.bullet().height());
         if (bullet != null) {
             bullets.add(bullet);
+            isCreated = true;
         }
+        return isCreated;
     }
 
     public void updateGun(int mouseX, int mouseY) {
@@ -159,5 +168,31 @@ public class Game {
         return new GameInfo(dtos);
     }
 
+    public int getGroundedParatrooperCount() {
+        int count = 0;
+        for (Paratrooper paratrooper : paratroopers) {
+            if (paratrooper.getOnGround()) {
+                count++;
+            }
+        }
+        return count;
+    }
 
+    public void directlyCreateParatrooper(int x, int y) {
+        Paratrooper paratrooper = new Paratrooper(0, config.paratrooper().width(), config.paratrooper().height(), config.soldier().height(), config.game().height());
+        paratrooper.setX(x);
+        paratrooper.setY(y);
+        paratroopers.add(paratrooper);
+    }
+
+    public void directlyCreateBullet(int x, int y) {
+        Bullet bullet = new Bullet(x, y, 0, config.bullet().width(), config.bullet().height());
+        if (bullet != null) {
+            bullets.add(bullet);
+        }
+    }
+
+    public int getCountObjects() {//gun + others
+        return 1 + helicopters.size() + paratroopers.size() + bullets.size();
+    }
 }
