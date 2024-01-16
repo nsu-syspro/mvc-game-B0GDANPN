@@ -3,46 +3,44 @@ package org.example.controller;
 import org.example.config.Config;
 import org.example.dto.GameInfo;
 import org.example.model.Game;
-import org.example.model.ScoreManager;
-import org.example.view.ControllerListener;
-import org.example.view.NewGameListener;
-import org.example.view.TableListener;
-import org.example.view.View;
+import org.example.utils.ScoreManager;
+import org.example.view.*;
 
 import javax.swing.*;
 
-public class Controller implements Runnable, NewGameListener, ControllerListener, TableListener {
+public class Controller implements Runnable, NewGameListener, ControllerListener, TableListener, ExitMenuListener {
     private Game game;
     private View view;
     private final Config config;
     private final ScoreManager scoreManager;
+    private Timer helicopterTimer;
+    private Timer paratrooperTimer;
+    private Timer gameTimer;
 
     public Controller(Config config) {
         this.config = config;
-        this.scoreManager = ScoreManager.getInstance(config.resultName());
+        this.scoreManager = ScoreManager.getInstance();
     }
 
     public void run() {
         view = new View(this, config);
-        view.runMenu(this, this);
+        view.runMenu(this, this, this);
     }
 
     @Override
     public void newGame() {
         view.runGame();
         String name = view.getUserName();
-        game = new Game(name, config, scoreManager);
-        Timer helicopterTimer = new Timer(1300, e -> game.createHelicopter());
+        game = new Game(name, config);
+        helicopterTimer = new Timer(1300, e -> game.createHelicopter());
         helicopterTimer.start();
-        Timer paratrooperTimer = new Timer(1500, e -> game.createParatrooper());
+        paratrooperTimer = new Timer(1500, e -> game.createParatrooper());
         paratrooperTimer.start();
-        final boolean[] gameEnded = {false};
-        Timer gameTimer = new Timer(100, e -> {
+        gameTimer = new Timer(100, e -> {
             GameInfo gameInfo = game.toGameInfo();
             view.setGameInfo(gameInfo);
-            if (!gameEnded[0] && game.updateGame()) {
-                // CR: maybe we can just stop timer if the game has ended?
-                gameEnded[0] = true;
+            if (game.updateGame()) {
+                stopTimers();
                 endGame();
 
             }
@@ -50,9 +48,22 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
         gameTimer.start();
     }
 
+    private void stopTimers() {
+        helicopterTimer.stop();
+        paratrooperTimer.stop();
+        gameTimer.stop();
+    }
+
+    @Override
+    public void saveScores() {
+        scoreManager.saveScores();
+    }
+
     public void endGame() {
-        scoreManager.saveScore();
-        view.endGame();
+        int score = game.getScore();
+        String name = game.getName();
+        ScoreManager.getInstance().addScore(name, score);
+        view.endGame(name, score);
     }
 
     @Override
@@ -67,6 +78,6 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
 
     @Override
     public void showTable() {
-        view.showTable();
+        view.showTable(ScoreManager.getInstance().getScores());
     }
 }

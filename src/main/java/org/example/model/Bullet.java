@@ -2,7 +2,7 @@ package org.example.model;
 
 public final class Bullet extends GameObject {
 
-    private static final int SPEED = 7;
+    private static final int SPEED = 9;
     private final double angle;
 
     public Bullet(int x, int y, double angle, int widthBullet, int heightBullet) {

@@ -2,12 +2,14 @@ package org.example.view;
 
 import org.example.config.Config;
 import org.example.dto.GameInfo;
+import org.example.utils.Score;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.List;
 
 public class View {
     private GamePanel gamePanel;
@@ -20,9 +22,9 @@ public class View {
         this.config = config;
     }
 
-    public void runMenu(NewGameListener newGameListener, TableListener tableListener) {
+    public void runMenu(NewGameListener newGameListener, TableListener tableListener,ExitMenuListener exitMenuListener) {
         MenuFrame menuFrame = new MenuFrame(config.menu().width(), config.menu().height());
-        MenuPanel menuPanel = new MenuPanel(newGameListener, tableListener, config.menu().width(), config.menu().height());
+        MenuPanel menuPanel = new MenuPanel(newGameListener, tableListener,exitMenuListener, config.menu().width(), config.menu().height());
         menuFrame.add(menuPanel, BorderLayout.CENTER);
         menuFrame.setContentPane(menuPanel);
     }
@@ -50,11 +52,12 @@ public class View {
         return JOptionPane.showInputDialog("Enter a name player:");
     }
 
-    public void showTable() {
-        TableFrame tableFrame = new TableFrame(config.table().width(), config.table().height(), config.resultName());
+    public void showTable(List<Score> scores) {
+        new TableFrame(config.table().width(), config.table().height(),scores);
     }
 
-    public void endGame() {
+    public void endGame(String name, int score) {
+        JOptionPane.showMessageDialog(null,"Your score: " + score + " Your name: " + name);
         gameFrame.dispose();
     }
 
