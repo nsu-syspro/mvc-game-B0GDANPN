@@ -17,10 +17,10 @@ public final class Paratrooper extends GameObject {
     }
 
 
-    public Paratrooper(int x, int paratrooperWidth, int paratrooperHeight, int soldierHeight, int gameHeight) {
+    public Paratrooper(int x, int paratrooperHeight, int soldierHeight, int gameHeight) {
         this.gameHeight = gameHeight;
         this.soldierHeight = soldierHeight;
-        this.setX(x - paratrooperWidth / 2);
+        this.setX(x);
         this.setY(paratrooperHeight / 2);
     }
 

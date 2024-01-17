@@ -7,10 +7,13 @@ public class RangeOutTest {
     public void checkRangeOut() {
         Config gameConfig = Config.create();
         Game game = new Game("OutTest", gameConfig);
-        game.directlyCreateBullet(80000,80000,0);
-        game.directlyCreateParatrooper(80000,300000);
-        game.directlyCreateHelicopter(80000);
-        game.updateGame();
-        assert game.getCountObjects() == 1;
+        game.createHelicopter();
+        game.createHelicopter();
+        game.createBullet();
+        game.createBullet();
+        for (int i=0;i<400;i++){
+            game.updateGame();
+        }
+        assert game.toGameInfo().dtos().size() == 1;
     }
 }

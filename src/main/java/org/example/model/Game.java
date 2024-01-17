@@ -42,11 +42,13 @@ public class Game {
         List<Bullet> bulletsToRemove = new ArrayList<>();
         List<Paratrooper> paratroopersToRemove = new ArrayList<>();
         List<Helicopter> helicoptersToRemove = new ArrayList<>();
+        int killedEnemies = 0;
         for (Bullet bullet : bullets) {
             for (Helicopter helicopter : helicopters) {
                 if (intersects(helicopter.getX(), helicopter.getY(), config.helicopter().width(), config.helicopter().height(),
                         bullet.getX(), bullet.getY(), config.bullet().width(), config.bullet().height())) {
                     bulletsToRemove.add(bullet);
+                    killedEnemies++;
                     helicoptersToRemove.add(helicopter);
                 }
             }
@@ -54,6 +56,7 @@ public class Game {
                 if (intersects(paratrooper.getX(), paratrooper.getY(), config.paratrooper().width(), config.paratrooper().height(),
                         bullet.getX(), bullet.getY(), config.bullet().width(), config.bullet().height())) {
                     bulletsToRemove.add(bullet);
+                    killedEnemies++;
                     paratroopersToRemove.add(paratrooper);
                 }
             }
@@ -76,14 +79,10 @@ public class Game {
                 paratroopersToRemove.add(paratrooper);
             }
         }
-        int oldHelicoptersSize = helicopters.size();
-        int oldParatroopersSize = paratroopers.size();
         bullets.removeAll(bulletsToRemove);
         paratroopers.removeAll(paratroopersToRemove);
         helicopters.removeAll(helicoptersToRemove);
-        int newHelicoptersSize = helicopters.size();
-        int newParatroopersSize = paratroopers.size();
-        this.score += oldHelicoptersSize - newHelicoptersSize + oldParatroopersSize - newParatroopersSize;
+        this.score += killedEnemies;
         return isEnd;
     }
 
@@ -118,7 +117,7 @@ public class Game {
         Random random = new Random();
         for (int i = 0; i < size; i++) {
             if (random.nextInt(100) < 15) {
-                Paratrooper paratrooper = new Paratrooper(helicopters.get(i).getX(), config.paratrooper().width(), config.paratrooper().height(), config.soldier().height(), config.game().height());
+                Paratrooper paratrooper = new Paratrooper(helicopters.get(i).getX(), config.paratrooper().height(), config.soldier().height(), config.game().height());
                 paratroopers.add(paratrooper);
                 isCreated = true;
             }
@@ -139,7 +138,7 @@ public class Game {
     }
 
     public void updateGun(int mouseX, int mouseY) {
-        gun.setAngle(mouseX-gun.getX()-(double)config.gun().width()/2, mouseY-gun.getY()-(double)config.gun().height()/2);
+        gun.setAngle(mouseX - gun.getX() - (double) config.gun().width() / 2, mouseY - gun.getY() - (double) config.gun().height() / 2);
     }
 
     private boolean intersects(int x1, int y1, int width1, int height1, int x2, int y2, int width2, int height2) {
@@ -151,7 +150,7 @@ public class Game {
     public GameInfo toGameInfo() {
         List<GameObjectInfo> dtos = new ArrayList<>();
         for (Bullet b : bullets) {
-            dtos.add(new Dto(b.getX(), b.getY(), DtoType.BULLET));
+            dtos.add(new BulletDto(b.getX(), b.getY(), b.getAngle(), DtoType.BULLET));
         }
         for (Helicopter h : helicopters) {
             dtos.add(new HelicopterDto(h.getX(), h.getY(), h.getDirection()));
@@ -164,55 +163,5 @@ public class Game {
         return new GameInfo(dtos);
     }
 
-    public int getGroundedParatrooperCount() {
-        int count = 0;
-        for (Paratrooper paratrooper : paratroopers) {
-            if (paratrooper.getOnGround()) {
-                count++;
-            }
-        }
-        return count;
-    }
 
-    public void directlyCreateParatrooper(int x, int y) {
-        Paratrooper paratrooper = new Paratrooper(0, config.paratrooper().width(), config.paratrooper().height(), config.soldier().height(), config.game().height());
-        paratrooper.setX(x);
-        paratrooper.setY(y);
-        paratroopers.add(paratrooper);
-    }
-
-    public void directlyCreateBullet(int x, int y,double angle) {
-        Bullet bullet = new Bullet(x, y, angle, config.bullet().width(), config.bullet().height());
-        bullets.add(bullet);
-    }
-    public void directlyCreateHelicopter(int x) {
-        Helicopter helicopter = new Helicopter(x);
-        helicopter.setX(x);
-        helicopters.add(helicopter);
-    }
-
-    public int getCountObjects() {//gun + others
-        return 1 + helicopters.size() + paratroopers.size() + bullets.size();
-    }
-    public Bullet getLastBullet(){
-        if (!bullets.isEmpty()){
-            return bullets.getLast();
-        }
-        return null;
-    }
-    public Paratrooper getLastParatrooper(){
-        if (!paratroopers.isEmpty()){
-            return paratroopers.getLast();
-        }
-        return null;
-    }
-    public Helicopter getLastHelicopter(){
-        if (!helicopters.isEmpty()){
-            return helicopters.getLast();
-        }
-        return null;
-    }
-    public boolean wasEnd(){
-        return isEndGame();
-    }
 }

@@ -19,8 +19,12 @@ public class ScoreManager {
         this.scores = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(SCORES_FILE))) {
             while (scanner.hasNextLine()) {
-                String[] line = scanner.nextLine().split(" ");
-                scores.add(new Score(line[0], Integer.parseInt(line[1])));
+                String line = scanner.nextLine();
+                if (line.isEmpty()){
+                    break;
+                }
+                String[] data = line.split(" ");
+                scores.add(new Score(data[0], Integer.parseInt(data[1])));
             }
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
