@@ -15,7 +15,7 @@ public class ScoreManagerTest {
     Config gameConfig = Config.create();
 
     @Test
-    public void checkScoreManager() throws InterruptedException {
+    public void checkScoreManager() {
         Game game = new Game("CheckScoreManagerTest", gameConfig);
         game.directlyCreateBullet(620, 420, 0);
         game.directlyCreateParatrooper(600, 400);
