@@ -7,11 +7,5 @@ public record HelicopterDto(int x, int y, Direction direction) implements GameOb
     public DtoType type() {
         return DtoType.HELICOPTER;
     }
-    public int getDirection() {
-        if (direction == Direction.LEFT) {
-            return -1;
-        } else {
-            return 1;
-        }
-    }
+
 }

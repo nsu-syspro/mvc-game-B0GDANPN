@@ -4,6 +4,8 @@ import org.example.config.Config;
 import org.example.model.Game;
 import org.junit.Test;
 
+import static ru.nsu.mmf.syspro.paratrooper.ChangeAngleTest.lastParatrooper;
+
 public class LandingTest {
     @Test
     public void checkLanding() {
@@ -17,9 +19,9 @@ public class LandingTest {
         while (!wasCreatedParatrooper) {
             wasCreatedParatrooper = game.createParatrooper();
         }
-        for (int i = 0; i < 600; i++) {
+        for (int i = 0; i < 400; i++) {
             game.updateGame();
         }
-        assert game.getGroundedParatrooperCount() == 1;
+        assert lastParatrooper(game).onGround();
     }
 }

@@ -10,14 +10,13 @@ public class EndGameTest {
     @Test
     public void checkEnd() {
         Game game = new Game("EndTest", gameConfig);
-        game.directlyCreateParatrooper(50, 700);
-        game.directlyCreateParatrooper(150, 700);
-        game.directlyCreateParatrooper(200, 700);
-        game.directlyCreateParatrooper(400, 700);
-        game.directlyCreateParatrooper(600, 700);
-        for (int i = 0; i < 50; i++) {
+        game.createHelicopter();
+        while (game.toGameInfo().dtos().size() < 8) {
+            game.createParatrooper();
+        }
+        for (int i = 0; i < 400; i++) {
             game.updateGame();
         }
-        assert game.wasEnd();
+        assert game.updateGame();
     }
 }

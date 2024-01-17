@@ -12,6 +12,6 @@ public class ShootTest {
         Game game = new Game("ShootTest", gameConfig);
         Thread.sleep(1000);// чтобы произошла задержка и пуля могла создаться
         game.createBullet();
-        assert game.getCountObjects() == 2;
+        assert game.toGameInfo().dtos().size()== 2;
     }
 }

@@ -2,6 +2,7 @@ package org.example.view;
 
 
 import org.example.dto.*;
+import org.example.model.Direction;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -42,7 +43,7 @@ public class GamePanel extends JPanel {
                         break;
                     case HELICOPTER:
                         HelicopterDto helicopterDto = (HelicopterDto) dto;
-                        drawHelicopter(g, helicopterDto.x(), helicopterDto.getDirection());
+                        drawHelicopter(g, helicopterDto.x(), helicopterDto.direction());
                         break;
                     case PARATROOPER:
                         ParatrooperDto paratrooperDto = (ParatrooperDto) dto;
@@ -82,10 +83,10 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private void drawHelicopter(Graphics g, int x, int direction) {
+    private void drawHelicopter(Graphics g, int x, Direction direction) {
         try {
             BufferedImage image;
-            if (direction == 1) {
+            if (direction == Direction.RIGHT) {
                 image = ImageIO.read(new File("src/main/resources/minihelicopter2.png"));
                 g.drawImage(image, x, 0, null);
             } else {
