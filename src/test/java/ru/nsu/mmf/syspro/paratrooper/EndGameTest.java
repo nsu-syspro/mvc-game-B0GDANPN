@@ -9,7 +9,7 @@ public class EndGameTest {
 
     @Test
     public void checkEnd() {
-        Game game = new Game("HitTest", gameConfig);
+        Game game = new Game("EndTest", gameConfig);
         game.directlyCreateParatrooper(50, 700);
         game.directlyCreateParatrooper(150, 700);
         game.directlyCreateParatrooper(200, 700);
