@@ -4,7 +4,7 @@ public enum Direction {
     LEFT {
         @Override
         int delta(int speed) {
-            return speed * -1;
+            return -speed;
         }
     },
     RIGHT {

@@ -34,7 +34,7 @@ public class ScoreManager {
         return INSTANCE;
     }
 
-    public boolean addScore(String name, int score) {//зачем boolean
+    public boolean addScore(String name, int score) {//зачем boolean?
         scores.sort(Comparator.comparingInt(Score::score).reversed());
         int i = 0;
         for (; i < scores.size(); i++) {
