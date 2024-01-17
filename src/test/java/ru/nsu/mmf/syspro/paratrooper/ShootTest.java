@@ -9,7 +9,7 @@ public class ShootTest {
 
     @Test
     public void checkShoot() throws InterruptedException {
-        Game game = new Game("movingTest", gameConfig);
+        Game game = new Game("ShootTest", gameConfig);
         Thread.sleep(1000);// чтобы произошла задержка и пуля могла создаться
         game.createBullet();
         assert game.getCountObjects() == 2;

@@ -19,10 +19,9 @@ public final class Gun extends GameObject {
         return angle;
     }
 
-    public void setAngle(int mouseX, int mouseY, int widthGun, int heightGun) {
-        angle = Math.atan2(mouseY - this.getY() - (double) heightGun / 2, mouseX - this.getX() - (double) widthGun / 2);
+    public void setAngle(double x, double y) {
+        angle = Math.atan2(y, x);
     }
-
     public Bullet generateBullet(int widthGun, int heightGun, int heightBarrel, int widthBullet, int heightBullet) {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShootTime > SHOOT_DELAY) {

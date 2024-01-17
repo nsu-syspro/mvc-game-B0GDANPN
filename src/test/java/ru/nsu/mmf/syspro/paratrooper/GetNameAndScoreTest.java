@@ -1,14 +1,12 @@
 package ru.nsu.mmf.syspro.paratrooper;
-
 import org.example.config.Config;
 import org.example.model.Game;
 import org.junit.Test;
-
-public class ScoreTest {
+public class GetNameAndScoreTest {
     Config gameConfig = Config.create();
     @Test
     public void checkScore() {
-        Game game = new Game("HitTest", gameConfig);
+        Game game = new Game("nameTest", gameConfig);
         game.directlyCreateBullet(620,420,0);
         game.directlyCreateParatrooper(600,400);
         game.updateGame();
@@ -16,5 +14,6 @@ public class ScoreTest {
         game.directlyCreateHelicopter(600);
         game.updateGame();
         assert game.getScore() == 2;
+        assert game.getName().equals("nameTest");
     }
 }

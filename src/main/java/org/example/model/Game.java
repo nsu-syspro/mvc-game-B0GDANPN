@@ -126,24 +126,20 @@ public class Game {
         return isCreated;
     }
 
-    public boolean createHelicopter() {
+    public void createHelicopter() {
         Helicopter helicopter = new Helicopter(config.game().width());
         helicopters.add(helicopter);
-        return true;
     }
 
-    public boolean createBullet() {
-        boolean isCreated = false;
+    public void createBullet() {
         Bullet bullet = gun.generateBullet(config.gun().width(), config.gun().height(), config.barrel().height(), config.bullet().width(), config.bullet().height());
         if (bullet != null) {
             bullets.add(bullet);
-            isCreated = true;
         }
-        return isCreated;
     }
 
     public void updateGun(int mouseX, int mouseY) {
-        gun.setAngle(mouseX, mouseY, config.gun().width(), config.gun().height());
+        gun.setAngle(mouseX-gun.getX()-(double)config.gun().width()/2, mouseY-gun.getY()-(double)config.gun().height()/2);
     }
 
     private boolean intersects(int x1, int y1, int width1, int height1, int x2, int y2, int width2, int height2) {
@@ -191,6 +187,7 @@ public class Game {
     }
     public void directlyCreateHelicopter(int x) {
         Helicopter helicopter = new Helicopter(x);
+        helicopter.setX(x);
         helicopters.add(helicopter);
     }
 

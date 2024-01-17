@@ -55,7 +55,6 @@ public class MovingTest {
             excitedLocation = new Rectangle(350, 0, gameConfig.helicopter().width(), gameConfig.helicopter().height());
         }
         Rectangle realLocation = new Rectangle(helicopter.getX(), helicopter.getY(), gameConfig.helicopter().width(), gameConfig.helicopter().height());
-
         assert excitedLocation.intersects(realLocation);
     }
 }
