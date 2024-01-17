@@ -7,8 +7,9 @@ public class RangeOutTest {
     public void checkRangeOut() {
         Config gameConfig = Config.create();
         Game game = new Game("landingTest", gameConfig);
-        game.directlyCreateBullet(80000,80000);
+        game.directlyCreateBullet(80000,80000,0);
         game.directlyCreateParatrooper(80000,300000);
+        game.directlyCreateHelicopter(80000);
         game.updateGame();
         assert game.getCountObjects() == 1;
     }

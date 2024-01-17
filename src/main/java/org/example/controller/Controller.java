@@ -32,7 +32,7 @@ public class Controller implements Runnable, NewGameListener, ControllerListener
         view.runGame();
         String name = view.getUserName();
         game = new Game(name, config);
-        helicopterTimer = new Timer(1300, e -> game.createHelicopter());
+        helicopterTimer = new Timer(1400, e -> game.createHelicopter());
         helicopterTimer.start();
         paratrooperTimer = new Timer(1500, e -> game.createParatrooper());
         paratrooperTimer.start();

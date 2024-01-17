@@ -185,14 +185,37 @@ public class Game {
         paratroopers.add(paratrooper);
     }
 
-    public void directlyCreateBullet(int x, int y) {
-        Bullet bullet = new Bullet(x, y, 0, config.bullet().width(), config.bullet().height());
-        if (bullet != null) {
-            bullets.add(bullet);
-        }
+    public void directlyCreateBullet(int x, int y,double angle) {
+        Bullet bullet = new Bullet(x, y, angle, config.bullet().width(), config.bullet().height());
+        bullets.add(bullet);
+    }
+    public void directlyCreateHelicopter(int x) {
+        Helicopter helicopter = new Helicopter(x);
+        helicopters.add(helicopter);
     }
 
     public int getCountObjects() {//gun + others
         return 1 + helicopters.size() + paratroopers.size() + bullets.size();
+    }
+    public Bullet getLastBullet(){
+        if (!bullets.isEmpty()){
+            return bullets.getLast();
+        }
+        return null;
+    }
+    public Paratrooper getLastParatrooper(){
+        if (!paratroopers.isEmpty()){
+            return paratroopers.getLast();
+        }
+        return null;
+    }
+    public Helicopter getLastHelicopter(){
+        if (!helicopters.isEmpty()){
+            return helicopters.getLast();
+        }
+        return null;
+    }
+    public boolean wasEnd(){
+        return isEndGame();
     }
 }

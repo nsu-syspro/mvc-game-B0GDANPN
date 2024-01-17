@@ -3,7 +3,7 @@ package org.example.model;
 import java.util.Random;
 
 public final class Helicopter extends GameObject {
-    private static final int SPEED = 4;
+    private static final int SPEED = 5;
     private int x;
     private final Direction direction;
 
