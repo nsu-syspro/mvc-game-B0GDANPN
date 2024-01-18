@@ -5,6 +5,7 @@ import org.example.dto.HelicopterDto;
 import org.example.model.Game;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static ru.nsu.mmf.syspro.paratrooper.ChangeAngleTest.lastHelicopter;
 
 public class GetNameAndScoreTest {
@@ -29,7 +30,7 @@ public class GetNameAndScoreTest {
         while (game.toGameInfo().dtos().size() > 1) {
             game.updateGame();
         }
-        assert game.getScore() == 1;
-        assert game.getName().equals("nameTest");
+        assertEquals(game.getScore(),1);
+        assertEquals(game.getName(),"nameTest");
     }
 }

@@ -4,6 +4,7 @@ import org.example.config.Config;
 import org.example.model.Game;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
 import static ru.nsu.mmf.syspro.paratrooper.ChangeAngleTest.lastParatrooper;
 
 public class LandingTest {
@@ -22,6 +23,6 @@ public class LandingTest {
         for (int i = 0; i < 400; i++) {
             game.updateGame();
         }
-        assert lastParatrooper(game).onGround();
+        assertTrue(lastParatrooper(game).onGround());
     }
 }

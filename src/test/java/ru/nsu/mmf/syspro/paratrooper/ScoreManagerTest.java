@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static org.junit.Assert.assertEquals;
 import static ru.nsu.mmf.syspro.paratrooper.ChangeAngleTest.lastHelicopter;
 
 public class ScoreManagerTest {
@@ -50,8 +51,8 @@ public class ScoreManagerTest {
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        assert scores.size() == 1;
-        assert scores.getFirst().name().equals("CheckScoreManagerTest");
-        assert scores.getFirst().score() == 1;
+        assertEquals(scores.size(), 1);
+        assertEquals(scores.getFirst().name(), "CheckScoreManagerTest");
+        assertEquals(scores.getFirst().score(), 1);
     }
 }

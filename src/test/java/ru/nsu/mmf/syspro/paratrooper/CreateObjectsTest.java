@@ -4,6 +4,8 @@ import org.example.config.Config;
 import org.example.model.Game;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class CreateObjectsTest {
     Config gameConfig = Config.create();
 
@@ -17,7 +19,7 @@ public class CreateObjectsTest {
         Thread.sleep(500);
         game.createBullet();
         game.updateGame();
-        assert game.toGameInfo().dtos().size() == 4;
+        assertEquals( game.toGameInfo().dtos().size(),4);
     }
 
     @Test
@@ -26,7 +28,7 @@ public class CreateObjectsTest {
         game.createHelicopter();
         game.createHelicopter();
         game.updateGame();
-        assert game.toGameInfo().dtos().size() == 3;
+        assertEquals(game.toGameInfo().dtos().size(),3);
     }
 
     @Test
@@ -38,6 +40,6 @@ public class CreateObjectsTest {
             wasCreated = game.createParatrooper();
         }
         game.updateGame();
-        assert game.toGameInfo().dtos().size() == 3;
+        assertEquals( game.toGameInfo().dtos().size()  ,3);
     }
 }

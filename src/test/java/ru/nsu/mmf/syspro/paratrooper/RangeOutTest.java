@@ -1,7 +1,11 @@
 package ru.nsu.mmf.syspro.paratrooper;
+
 import org.example.config.Config;
 import org.example.model.Game;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
 public class RangeOutTest {
     @Test
     public void checkRangeOut() {
@@ -11,9 +15,9 @@ public class RangeOutTest {
         game.createHelicopter();
         game.createBullet();
         game.createBullet();
-        for (int i=0;i<400;i++){
+        for (int i = 0; i < 400; i++) {
             game.updateGame();
         }
-        assert game.toGameInfo().dtos().size() == 1;
+        assertEquals(game.toGameInfo().dtos().size(), 1);
     }
 }
