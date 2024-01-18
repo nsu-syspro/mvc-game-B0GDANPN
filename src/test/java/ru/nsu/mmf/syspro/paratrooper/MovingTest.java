@@ -30,7 +30,7 @@ public class MovingTest {
         Rectangle excitedLocation = new Rectangle(570, 490, gameConfig.bullet().width(), gameConfig.bullet().height());
         Rectangle realLocation = new Rectangle(bullet.x(), bullet.y(), gameConfig.bullet().width(), gameConfig.bullet().height());
 
-        assert excitedLocation.intersects(realLocation);
+        assertTrue(excitedLocation.intersects(realLocation));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class MovingTest {
         Rectangle excitedLocation = new Rectangle(paratrooper.x(), newHeight, gameConfig.bullet().width(), gameConfig.bullet().height());
         Rectangle realLocation = new Rectangle(paratrooper.x(), paratrooper.y(), gameConfig.paratrooper().width(), gameConfig.paratrooper().height());
 
-        assert excitedLocation.intersects(realLocation);
+        assertTrue(excitedLocation.intersects(realLocation));
     }
 
     @Test
