@@ -4,7 +4,7 @@ import org.example.config.Config;
 import org.example.dto.*;
 import org.example.model.Game;
 import org.junit.Test;
-
+import static org.junit.Assert.assertTrue;
 import java.awt.*;
 
 public class ChangeAngleTest {
@@ -52,7 +52,7 @@ public class ChangeAngleTest {
         BulletDto bulletDto = lastBullet(game);
         Rectangle excitedLocation = new Rectangle(682, 710, gameConfig.bullet().width(), gameConfig.bullet().height());
         Rectangle realLocation = new Rectangle(bulletDto.x(), bulletDto.y(), gameConfig.bullet().width(), gameConfig.bullet().height());
-        assert excitedLocation.intersects(realLocation);
+        assertTrue(excitedLocation.intersects(realLocation));
     }
 
     @Test
@@ -64,7 +64,7 @@ public class ChangeAngleTest {
         BulletDto bulletDto = lastBullet(game);
         Rectangle excitedLocation = new Rectangle(567, 597, gameConfig.bullet().width(), gameConfig.bullet().height());
         Rectangle realLocation = new Rectangle(bulletDto.x(), bulletDto.y(), gameConfig.bullet().width(), gameConfig.bullet().height());
-        assert excitedLocation.intersects(realLocation);
+        assertTrue(excitedLocation.intersects(realLocation));
     }
 
     @Test
@@ -76,6 +76,6 @@ public class ChangeAngleTest {
         BulletDto bulletDto = lastBullet(game);
         Rectangle excitedLocation = new Rectangle(454, 713, gameConfig.bullet().width(), gameConfig.bullet().height());
         Rectangle realLocation = new Rectangle(bulletDto.x(), bulletDto.y(), gameConfig.bullet().width(), gameConfig.bullet().height());
-        assert excitedLocation.intersects(realLocation);
+        assertTrue(excitedLocation.intersects(realLocation));
     }
 }

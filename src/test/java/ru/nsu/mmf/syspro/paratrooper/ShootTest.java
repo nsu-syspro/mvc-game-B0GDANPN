@@ -4,6 +4,8 @@ import org.example.config.Config;
 import org.example.model.Game;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class ShootTest {
     Config gameConfig = Config.create();
 
@@ -12,6 +14,6 @@ public class ShootTest {
         Game game = new Game("ShootTest", gameConfig);
         Thread.sleep(1000);// чтобы произошла задержка и пуля могла создаться
         game.createBullet();
-        assert game.toGameInfo().dtos().size()== 2;
+        assertEquals(game.toGameInfo().dtos().size(), 2);
     }
 }

@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.awt.*;
 
+import static org.junit.Assert.assertTrue;
 import static ru.nsu.mmf.syspro.paratrooper.ChangeAngleTest.*;
 
 
@@ -73,6 +74,6 @@ public class MovingTest {
             excitedLocation=new Rectangle(340, 0, gameConfig.helicopter().width(), gameConfig.helicopter().height());
         }
         Rectangle realLocation = new Rectangle(helicopter.x(), helicopter.y(), gameConfig.helicopter().width(), gameConfig.helicopter().height());
-        assert excitedLocation.intersects(realLocation);
+        assertTrue(excitedLocation.intersects(realLocation));
     }
 }
