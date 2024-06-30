@@ -4,8 +4,10 @@ import org.example.config.Config;
 import org.example.dto.*;
 import org.example.model.Game;
 import org.junit.Test;
-import static org.junit.Assert.assertTrue;
+
 import java.awt.*;
+
+import static org.junit.Assert.assertTrue;
 
 public class ChangeAngleTest {
     Config gameConfig = Config.create();
